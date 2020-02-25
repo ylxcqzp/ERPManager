@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.mapper.AppraiseMapper">
+  <resultMap id="BaseResultMap" type="com.example.erp.entity.Appraise">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="app_date" jdbcType="DATE" property="appDate" />
+    <result column="app_result" jdbcType="VARCHAR" property="appResult" />
+    <result column="app_content" jdbcType="VARCHAR" property="appContent" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <association property="employee" column="eid" select="com.example.erp.mapper.EmployeeMapper.findEmpById"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, eid, app_date, app_result, app_content, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from appraise
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from appraise
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Appraise" useGeneratedKeys="true">
+    insert into appraise (eid, app_date, app_result, 
+      app_content, remark)
+    values (#{eid,jdbcType=INTEGER}, #{appDate,jdbcType=DATE}, #{appResult,jdbcType=VARCHAR}, 
+      #{appContent,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Appraise" useGeneratedKeys="true">
+    insert into appraise
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        eid,
+      </if>
+      <if test="appDate != null">
+        app_date,
+      </if>
+      <if test="appResult != null">
+        app_result,
+      </if>
+      <if test="appContent != null">
+        app_content,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="appDate != null">
+        #{appDate,jdbcType=DATE},
+      </if>
+      <if test="appResult != null">
+        #{appResult,jdbcType=VARCHAR},
+      </if>
+      <if test="appContent != null">
+        #{appContent,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.Appraise">
+    update appraise
+    <set>
+      <if test="eid != null">
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="appDate != null">
+        app_date = #{appDate,jdbcType=DATE},
+      </if>
+      <if test="appResult != null">
+        app_result = #{appResult,jdbcType=VARCHAR},
+      </if>
+      <if test="appContent != null">
+        app_content = #{appContent,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.erp.entity.Appraise">
+    update appraise
+    set eid = #{eid,jdbcType=INTEGER},
+      app_date = #{appDate,jdbcType=DATE},
+      app_result = #{appResult,jdbcType=VARCHAR},
+      app_content = #{appContent,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

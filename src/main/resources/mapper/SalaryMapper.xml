@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.mapper.SalaryMapper">
+  <resultMap id="BaseResultMap" type="com.example.erp.entity.Salary">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="basic_salary" jdbcType="INTEGER" property="basicSalary" />
+    <result column="bonus" jdbcType="INTEGER" property="bonus" />
+    <result column="lunch_salary" jdbcType="INTEGER" property="lunchSalary" />
+    <result column="traffic_salary" jdbcType="INTEGER" property="trafficSalary" />
+    <result column="all_salary" jdbcType="INTEGER" property="allSalary" />
+    <result column="pension_base" jdbcType="INTEGER" property="pensionBase" />
+    <result column="pension_per" jdbcType="REAL" property="pensionPer" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="medical_base" jdbcType="INTEGER" property="medicalBase" />
+    <result column="medical_per" jdbcType="REAL" property="medicalPer" />
+    <result column="accumulation_fund_base" jdbcType="INTEGER" property="accumulationFundBase" />
+    <result column="accumulation_fund_per" jdbcType="REAL" property="accumulationFundPer" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, basic_salary, bonus, lunch_salary, traffic_salary, all_salary, pension_base, 
+    pension_per, create_date, medical_base, medical_per, accumulation_fund_base, accumulation_fund_per, 
+    `name`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from salary
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from salary
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Salary" useGeneratedKeys="true">
+    insert into salary (basic_salary, bonus, lunch_salary, 
+      traffic_salary, all_salary, pension_base, 
+      pension_per, create_date, medical_base, 
+      medical_per, accumulation_fund_base, accumulation_fund_per, 
+      `name`)
+    values (#{basicSalary,jdbcType=INTEGER}, #{bonus,jdbcType=INTEGER}, #{lunchSalary,jdbcType=INTEGER}, 
+      #{trafficSalary,jdbcType=INTEGER}, #{allSalary,jdbcType=INTEGER}, #{pensionBase,jdbcType=INTEGER}, 
+      #{pensionPer,jdbcType=REAL}, #{createDate,jdbcType=TIMESTAMP}, #{medicalBase,jdbcType=INTEGER}, 
+      #{medicalPer,jdbcType=REAL}, #{accumulationFundBase,jdbcType=INTEGER}, #{accumulationFundPer,jdbcType=REAL}, 
+      #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Salary" useGeneratedKeys="true">
+    insert into salary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="basicSalary != null">
+        basic_salary,
+      </if>
+      <if test="bonus != null">
+        bonus,
+      </if>
+      <if test="lunchSalary != null">
+        lunch_salary,
+      </if>
+      <if test="trafficSalary != null">
+        traffic_salary,
+      </if>
+      <if test="allSalary != null">
+        all_salary,
+      </if>
+      <if test="pensionBase != null">
+        pension_base,
+      </if>
+      <if test="pensionPer != null">
+        pension_per,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="medicalBase != null">
+        medical_base,
+      </if>
+      <if test="medicalPer != null">
+        medical_per,
+      </if>
+      <if test="accumulationFundBase != null">
+        accumulation_fund_base,
+      </if>
+      <if test="accumulationFundPer != null">
+        accumulation_fund_per,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="basicSalary != null">
+        #{basicSalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null">
+        #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="lunchSalary != null">
+        #{lunchSalary,jdbcType=INTEGER},
+      </if>
+      <if test="trafficSalary != null">
+        #{trafficSalary,jdbcType=INTEGER},
+      </if>
+      <if test="allSalary != null">
+        #{allSalary,jdbcType=INTEGER},
+      </if>
+      <if test="pensionBase != null">
+        #{pensionBase,jdbcType=INTEGER},
+      </if>
+      <if test="pensionPer != null">
+        #{pensionPer,jdbcType=REAL},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicalBase != null">
+        #{medicalBase,jdbcType=INTEGER},
+      </if>
+      <if test="medicalPer != null">
+        #{medicalPer,jdbcType=REAL},
+      </if>
+      <if test="accumulationFundBase != null">
+        #{accumulationFundBase,jdbcType=INTEGER},
+      </if>
+      <if test="accumulationFundPer != null">
+        #{accumulationFundPer,jdbcType=REAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.Salary">
+    update salary
+    <set>
+      <if test="basicSalary != null">
+        basic_salary = #{basicSalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null">
+        bonus = #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="lunchSalary != null">
+        lunch_salary = #{lunchSalary,jdbcType=INTEGER},
+      </if>
+      <if test="trafficSalary != null">
+        traffic_salary = #{trafficSalary,jdbcType=INTEGER},
+      </if>
+      <if test="allSalary != null">
+        all_salary = #{allSalary,jdbcType=INTEGER},
+      </if>
+      <if test="pensionBase != null">
+        pension_base = #{pensionBase,jdbcType=INTEGER},
+      </if>
+      <if test="pensionPer != null">
+        pension_per = #{pensionPer,jdbcType=REAL},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicalBase != null">
+        medical_base = #{medicalBase,jdbcType=INTEGER},
+      </if>
+      <if test="medicalPer != null">
+        medical_per = #{medicalPer,jdbcType=REAL},
+      </if>
+      <if test="accumulationFundBase != null">
+        accumulation_fund_base = #{accumulationFundBase,jdbcType=INTEGER},
+      </if>
+      <if test="accumulationFundPer != null">
+        accumulation_fund_per = #{accumulationFundPer,jdbcType=REAL},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.erp.entity.Salary">
+    update salary
+    set basic_salary = #{basicSalary,jdbcType=INTEGER},
+      bonus = #{bonus,jdbcType=INTEGER},
+      lunch_salary = #{lunchSalary,jdbcType=INTEGER},
+      traffic_salary = #{trafficSalary,jdbcType=INTEGER},
+      all_salary = #{allSalary,jdbcType=INTEGER},
+      pension_base = #{pensionBase,jdbcType=INTEGER},
+      pension_per = #{pensionPer,jdbcType=REAL},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      medical_base = #{medicalBase,jdbcType=INTEGER},
+      medical_per = #{medicalPer,jdbcType=REAL},
+      accumulation_fund_base = #{accumulationFundBase,jdbcType=INTEGER},
+      accumulation_fund_per = #{accumulationFundPer,jdbcType=REAL},
+      `name` = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

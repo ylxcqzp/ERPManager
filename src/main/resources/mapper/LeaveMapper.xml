@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.mapper.LeaveMapper">
+  <resultMap id="BaseResultMap" type="com.example.erp.entity.Leave">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="begin" jdbcType="TIMESTAMP" property="begin" />
+    <result column="end" jdbcType="TIMESTAMP" property="end" />
+    <result column="hrid" jdbcType="INTEGER" property="hrid" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <association property="employee" column="eid" select="com.example.erp.mapper.EmployeeMapper.findEmpById"/>
+    <association property="hr" column="hrid" select="com.example.erp.mapper.HrMapper.findByHrId"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, eid, reason, `begin`, `end`, hrid, `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from leave
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from leave
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Leave" useGeneratedKeys="true">
+    insert into leave (eid, reason, `begin`, 
+      `end`, hrid, `status`
+      )
+    values (#{eid,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, #{begin,jdbcType=TIMESTAMP}, 
+      #{end,jdbcType=TIMESTAMP}, #{hrid,jdbcType=INTEGER}, #{status,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Leave" useGeneratedKeys="true">
+    insert into leave
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        eid,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="begin != null">
+        `begin`,
+      </if>
+      <if test="end != null">
+        `end`,
+      </if>
+      <if test="hrid != null">
+        hrid,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="begin != null">
+        #{begin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end != null">
+        #{end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hrid != null">
+        #{hrid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.Leave">
+    update leave
+    <set>
+      <if test="eid != null">
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="begin != null">
+        `begin` = #{begin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end != null">
+        `end` = #{end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hrid != null">
+        hrid = #{hrid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.erp.entity.Leave">
+    update leave
+    set eid = #{eid,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=VARCHAR},
+      `begin` = #{begin,jdbcType=TIMESTAMP},
+      `end` = #{end,jdbcType=TIMESTAMP},
+      hrid = #{hrid,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.mapper.MissionMapper">
+  <resultMap id="BaseResultMap" type="com.example.erp.entity.Mission">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="mission_name" jdbcType="VARCHAR" property="missionName" />
+    <result column="mission_detail" jdbcType="VARCHAR" property="missionDetail" />
+    <result column="begin_date" jdbcType="DATE" property="beginDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="status" jdbcType="BIGINT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pid, mission_name, mission_detail, begin_date, end_date, `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Mission" useGeneratedKeys="true">
+    insert into mission (pid, mission_name, mission_detail, 
+      begin_date, end_date, `status`
+      )
+    values (#{pid,jdbcType=INTEGER}, #{missionName,jdbcType=VARCHAR}, #{missionDetail,jdbcType=VARCHAR}, 
+      #{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{status,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Mission" useGeneratedKeys="true">
+    insert into mission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="missionName != null">
+        mission_name,
+      </if>
+      <if test="missionDetail != null">
+        mission_detail,
+      </if>
+      <if test="beginDate != null">
+        begin_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="missionName != null">
+        #{missionName,jdbcType=VARCHAR},
+      </if>
+      <if test="missionDetail != null">
+        #{missionDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.Mission">
+    update mission
+    <set>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="missionName != null">
+        mission_name = #{missionName,jdbcType=VARCHAR},
+      </if>
+      <if test="missionDetail != null">
+        mission_detail = #{missionDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        begin_date = #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.erp.entity.Mission">
+    update mission
+    set pid = #{pid,jdbcType=INTEGER},
+      mission_name = #{missionName,jdbcType=VARCHAR},
+      mission_detail = #{missionDetail,jdbcType=VARCHAR},
+      begin_date = #{beginDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      `status` = #{status,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

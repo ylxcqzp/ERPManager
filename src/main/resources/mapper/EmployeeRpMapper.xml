@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.mapper.EmployeeRpMapper">
+  <resultMap id="BaseResultMap" type="com.example.erp.entity.EmployeeRp">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="rp_date" jdbcType="DATE" property="rpDate" />
+    <result column="rp_reason" jdbcType="VARCHAR" property="rpReason" />
+    <result column="rp_point" jdbcType="INTEGER" property="rpPoint" />
+    <result column="rp_type" jdbcType="INTEGER" property="rpType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <association property="employee" javaType="com.example.erp.entity.Employee">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="gender" jdbcType="CHAR" property="gender" />
+      <result column="birthday" jdbcType="DATE" property="birthday" />
+      <result column="idCard" jdbcType="CHAR" property="idcard" />
+      <result column="password" jdbcType="VARCHAR" property="password" />
+      <result column="wedlock" jdbcType="CHAR" property="wedlock" />
+      <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+      <result column="email" jdbcType="VARCHAR" property="email" />
+      <result column="phone" jdbcType="VARCHAR" property="phone" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="engage_form" jdbcType="VARCHAR" property="engageForm" />
+      <result column="tiptop_degree" jdbcType="CHAR" property="tiptopDegree" />
+      <result column="specialty" jdbcType="VARCHAR" property="specialty" />
+      <result column="school" jdbcType="VARCHAR" property="school" />
+      <result column="begin_date" jdbcType="DATE" property="beginDate" />
+      <result column="work_state" jdbcType="CHAR" property="workState" />
+      <result column="work_id" jdbcType="CHAR" property="workId" />
+      <result column="contract_term" jdbcType="DOUBLE" property="contractTerm" />
+      <result column="conversion_time" jdbcType="DATE" property="conversionTime" />
+      <result column="notWork_date" jdbcType="DATE" property="notworkDate" />
+      <result column="begin_contract" jdbcType="DATE" property="beginContract" />
+      <result column="end_contract" jdbcType="DATE" property="endContract" />
+      <result column="work_age" jdbcType="INTEGER" property="workAge" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, eid, rp_date, rp_reason, rp_point, rp_type, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from employeerp
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from employeerp
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.EmployeeRp" useGeneratedKeys="true">
+    insert into employeerp (eid, rp_date, rp_reason, 
+      rp_point, rp_type, remark
+      )
+    values (#{eid,jdbcType=INTEGER}, #{rpDate,jdbcType=DATE}, #{rpReason,jdbcType=VARCHAR}, 
+      #{rpPoint,jdbcType=INTEGER}, #{rpType,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.EmployeeRp" useGeneratedKeys="true">
+    insert into employeerp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        eid,
+      </if>
+      <if test="rpDate != null">
+        rp_date,
+      </if>
+      <if test="rpReason != null">
+        rp_reason,
+      </if>
+      <if test="rpPoint != null">
+        rp_point,
+      </if>
+      <if test="rpType != null">
+        rp_type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="rpDate != null">
+        #{rpDate,jdbcType=DATE},
+      </if>
+      <if test="rpReason != null">
+        #{rpReason,jdbcType=VARCHAR},
+      </if>
+      <if test="rpPoint != null">
+        #{rpPoint,jdbcType=INTEGER},
+      </if>
+      <if test="rpType != null">
+        #{rpType,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.EmployeeRp">
+    update employeerp
+    <set>
+      <if test="eid != null">
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="rpDate != null">
+        rp_date = #{rpDate,jdbcType=DATE},
+      </if>
+      <if test="rpReason != null">
+        rp_reason = #{rpReason,jdbcType=VARCHAR},
+      </if>
+      <if test="rpPoint != null">
+        rp_point = #{rpPoint,jdbcType=INTEGER},
+      </if>
+      <if test="rpType != null">
+        rp_type = #{rpType,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.erp.entity.EmployeeRp">
+    update employeerp
+    set eid = #{eid,jdbcType=INTEGER},
+      rp_date = #{rpDate,jdbcType=DATE},
+      rp_reason = #{rpReason,jdbcType=VARCHAR},
+      rp_point = #{rpPoint,jdbcType=INTEGER},
+      rp_type = #{rpType,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

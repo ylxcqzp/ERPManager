@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.mapper.DepartmentMapper">
+  <!--模板-->
+  <resultMap id="findDepById" type="com.example.erp.entity.Department">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="dep_path" jdbcType="VARCHAR" property="depPath" />
+    <result column="enabled" jdbcType="BIT" property="enabled" />
+  </resultMap>
+  <select id="findDepById" parameterType="int" resultMap="findDepById">
+    select * from department where id = #{id}
+  </select>
+
+  <resultMap id="BaseResultMap" type="com.example.erp.entity.Department">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="dep_path" jdbcType="VARCHAR" property="depPath" />
+    <result column="enabled" jdbcType="BIT" property="enabled" />
+    <result column="is_parent" jdbcType="BIT" property="isParent" />
+  </resultMap>
+  <resultMap id="DepartmentWithChildren" type="com.example.erp.entity.Department" extends="BaseResultMap">
+    <collection property="children" ofType="com.example.erp.entity.Department"
+                select="com.example.erp.mapper.DepartmentMapper.getAllDepartmentsByParentId" column="id"/>
+  </resultMap>
+  <select id="getAllDepartmentsByParentId" resultMap="DepartmentWithChildren">
+    select * from department where parent_id=#{pid};
+  </select>
+  <sql id="Base_Column_List">
+    id, `name`, parent_id, dep_path, enabled, is_parent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from department
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from department
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Department" useGeneratedKeys="true">
+    insert into department (`name`, parent_id, dep_path, 
+      enabled, is_parent)
+    values (#{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{depPath,jdbcType=VARCHAR}, 
+      #{enabled,jdbcType=BIT}, #{isParent,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Department" useGeneratedKeys="true">
+    insert into department
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="depPath != null">
+        dep_path,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+      <if test="isParent != null">
+        is_parent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="depPath != null">
+        #{depPath,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=BIT},
+      </if>
+      <if test="isParent != null">
+        #{isParent,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.Department">
+    update department
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="depPath != null">
+        dep_path = #{depPath,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=BIT},
+      </if>
+      <if test="isParent != null">
+        is_parent = #{isParent,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.erp.entity.Department">
+    update department
+    set `name` = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      dep_path = #{depPath,jdbcType=VARCHAR},
+      enabled = #{enabled,jdbcType=BIT},
+      is_parent = #{isParent,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
