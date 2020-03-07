@@ -1,4 +1,4 @@
-package com.example.erp.controller;
+package com.example.erp.controller.basic;
 
 import com.example.erp.entity.Menu;
 import com.example.erp.service.HrService;

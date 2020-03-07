@@ -1,7 +1,9 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.Mission;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MissionMapper {
     int deleteByPrimaryKey(Integer id);
 

@@ -1,7 +1,9 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.Project;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ProjectMapper {
     int deleteByPrimaryKey(Integer id);
 

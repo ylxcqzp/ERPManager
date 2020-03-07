@@ -1,7 +1,9 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.Salary;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SalaryMapper {
     int deleteByPrimaryKey(Integer id);
 

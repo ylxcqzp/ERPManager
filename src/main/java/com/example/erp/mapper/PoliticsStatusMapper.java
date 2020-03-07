@@ -1,7 +1,11 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.PoliticsStatus;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface PoliticsStatusMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,6 @@ public interface PoliticsStatusMapper {
     int updateByPrimaryKeySelective(PoliticsStatus record);
 
     int updateByPrimaryKey(PoliticsStatus record);
+
+    List<PoliticsStatus> getAll();
 }

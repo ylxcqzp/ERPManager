@@ -1,7 +1,11 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.Nation;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface NationMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,6 @@ public interface NationMapper {
     int updateByPrimaryKeySelective(Nation record);
 
     int updateByPrimaryKey(Nation record);
+
+    List<Nation> getAll();
 }

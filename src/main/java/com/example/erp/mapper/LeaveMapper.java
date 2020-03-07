@@ -1,7 +1,9 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.Leave;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface LeaveMapper {
     int deleteByPrimaryKey(Integer id);
 

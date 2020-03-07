@@ -1,7 +1,11 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.JobLevel;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface JobLevelMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,6 @@ public interface JobLevelMapper {
     int updateByPrimaryKeySelective(JobLevel record);
 
     int updateByPrimaryKey(JobLevel record);
+
+    List<JobLevel> getAll();
 }

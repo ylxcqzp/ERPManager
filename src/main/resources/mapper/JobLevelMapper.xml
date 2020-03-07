@@ -20,7 +20,12 @@
     from jobLevel
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getAll" resultType="com.example.erp.entity.JobLevel">
+      select
+      <include refid="Base_Column_List"/>
+      from jobLevel
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from jobLevel
     where id = #{id,jdbcType=INTEGER}
   </delete>

@@ -1,7 +1,9 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.Comment;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CommentMapper {
     int deleteByPrimaryKey(Integer id);
 

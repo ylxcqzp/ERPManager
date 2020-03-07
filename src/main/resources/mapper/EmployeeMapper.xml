@@ -123,13 +123,13 @@
       <if test="wedlock != null">
         wedlock,
       </if>
-      <if test="nationid != null">
+      <if test="nation.id != null">
         nationId,
       </if>
       <if test="nativePlace != null">
         native_place,
       </if>
-      <if test="politicid != null">
+      <if test="politicsStatus.id != null">
         politicId,
       </if>
       <if test="email != null">
@@ -141,13 +141,13 @@
       <if test="address != null">
         address,
       </if>
-      <if test="departmentid != null">
+      <if test="department.id != null">
         departmentId,
       </if>
-      <if test="joblevelid != null">
+      <if test="jobLevel.id != null">
         jobLevelId,
       </if>
-      <if test="posid != null">
+      <if test="position.id != null">
         posId,
       </if>
       <if test="engageForm != null">
@@ -209,14 +209,14 @@
       <if test="wedlock != null">
         #{wedlock,jdbcType=CHAR},
       </if>
-      <if test="nationid != null">
-        #{nationid,jdbcType=INTEGER},
+      <if test="nation.id != null">
+        #{nation.id,jdbcType=INTEGER},
       </if>
       <if test="nativePlace != null">
         #{nativePlace,jdbcType=VARCHAR},
       </if>
-      <if test="politicid != null">
-        #{politicid,jdbcType=INTEGER},
+      <if test="politicsStatus.id != null">
+        #{politicsStatus.id,jdbcType=INTEGER},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
@@ -227,14 +227,14 @@
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="departmentid != null">
-        #{departmentid,jdbcType=INTEGER},
+      <if test="department.id != null">
+        #{department.id,jdbcType=INTEGER},
       </if>
-      <if test="joblevelid != null">
-        #{joblevelid,jdbcType=INTEGER},
+      <if test="jobLevel.id != null">
+        #{jobLevel.id,jdbcType=INTEGER},
       </if>
-      <if test="posid != null">
-        #{posid,jdbcType=INTEGER},
+      <if test="position.id != null">
+        #{position.id,jdbcType=INTEGER},
       </if>
       <if test="engageForm != null">
         #{engageForm,jdbcType=VARCHAR},
@@ -298,14 +298,14 @@
       <if test="wedlock != null">
         wedlock = #{wedlock,jdbcType=CHAR},
       </if>
-      <if test="nationid != null">
-        nationId = #{nationid,jdbcType=INTEGER},
+      <if test="nation.id != null">
+        nationId = #{nation.id,jdbcType=INTEGER},
       </if>
       <if test="nativePlace != null">
         native_place = #{nativePlace,jdbcType=VARCHAR},
       </if>
-      <if test="politicid != null">
-        politicId = #{politicid,jdbcType=INTEGER},
+      <if test="politicsStatus.id != null">
+        politicId = #{politicsStatus.id,jdbcType=INTEGER},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
@@ -316,14 +316,14 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="departmentid != null">
-        departmentId = #{departmentid,jdbcType=INTEGER},
+      <if test="department.id != null">
+        departmentId = #{department.id,jdbcType=INTEGER},
       </if>
-      <if test="joblevelid != null">
-        jobLevelId = #{joblevelid,jdbcType=INTEGER},
+      <if test="jobLevel.id != null">
+        jobLevelId = #{jobLevel.id,jdbcType=INTEGER},
       </if>
-      <if test="posid != null">
-        posId = #{posid,jdbcType=INTEGER},
+      <if test="position.id != null">
+        posId = #{position.id,jdbcType=INTEGER},
       </if>
       <if test="engageForm != null">
         engage_form = #{engageForm,jdbcType=VARCHAR},
@@ -415,23 +415,26 @@
             and `name` like concat('%',#{emp.name},'%')
           </if>
           <if test="emp.workId != null and emp.workId != ''">
-            and work_id == #{emp.workId}
+            and work_id = #{emp.workId}
           </if>
           <if test="emp.gender != null and gender != ''">
-            and gender == #{emp.gender}
+            and gender = #{emp.gender}
           </if>
           <if test="emp.position != null">
-            and posId == #{emp.position.id}
+            and posId = #{emp.position.id}
           </if>
           <if test="emp.jobLevel != null">
-            and jobLevelId == #{emp.jobLevel.id}
+            and jobLevelId = #{emp.jobLevel.id}
           </if>
           <if test="emp.department != null">
-            and departmentId == #{emp.department.id}
+            and departmentId = #{emp.department.id}
           </if>
           <if test="beginDateScope != null">
             and begin_date between #{beginDateScope[0]} and #{beginDateScope[1]}
           </if>
         </where>
+    </select>
+    <select id="nextWorkId" resultType="java.lang.Long">
+      select max(work_id) from employee
     </select>
 </mapper>

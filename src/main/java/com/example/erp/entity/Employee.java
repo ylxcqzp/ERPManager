@@ -1,5 +1,6 @@
 package com.example.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ public class Employee implements Serializable {
     /**
      * 出生日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date birthday;
 
     /**
@@ -111,6 +113,7 @@ public class Employee implements Serializable {
     /**
      * 入职日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date beginDate;
 
     /**
@@ -131,21 +134,25 @@ public class Employee implements Serializable {
     /**
      * 转正日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date conversionTime;
 
     /**
      * 离职日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date notworkDate;
 
     /**
      * 合同起始日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date beginContract;
 
     /**
      * 合同终止日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date endContract;
 
     /**

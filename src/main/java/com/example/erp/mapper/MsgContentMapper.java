@@ -1,7 +1,9 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.MsgContent;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MsgContentMapper {
     int deleteByPrimaryKey(Integer id);
 

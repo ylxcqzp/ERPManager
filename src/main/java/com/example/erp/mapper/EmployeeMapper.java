@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -23,5 +24,7 @@ public interface EmployeeMapper {
 
     List<Employee> selectAll();
 
-    List<Employee> selectByOptions(@Param("emp") Employee employee, @Param("beginDateScope") Data[] beginDateScope);
+    List<Employee> selectByOptions(@Param("emp") Employee employee, @Param("beginDateScope") Date[] beginDateScope);
+
+    Long nextWorkId();
 }

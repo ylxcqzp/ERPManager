@@ -17,7 +17,12 @@
     from politicsStatus
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getAll" resultType="com.example.erp.entity.PoliticsStatus">
+      select
+      <include refid="Base_Column_List"/>
+      from politicsStatus
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from politicsStatus
     where id = #{id,jdbcType=INTEGER}
   </delete>
