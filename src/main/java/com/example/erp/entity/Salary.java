@@ -1,15 +1,12 @@
 package com.example.erp.entity;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * salary 工资信息
+ * salary
  * @author 
  */
-@Data
 public class Salary implements Serializable {
     private Integer id;
 
@@ -34,6 +31,16 @@ public class Salary implements Serializable {
     private Integer trafficSalary;
 
     /**
+     * 事假
+     */
+    private Integer casualLeave;
+
+    /**
+     * 病假
+     */
+    private Integer sickLeave;
+
+    /**
      * 应发工资
      */
     private Integer allSalary;
@@ -47,11 +54,6 @@ public class Salary implements Serializable {
      * 养老金比率
      */
     private Float pensionPer;
-
-    /**
-     * 启用时间
-     */
-    private Date createDate;
 
     /**
      * 医疗基数
@@ -75,6 +77,138 @@ public class Salary implements Serializable {
 
     private String name;
 
+    /**
+     * 启用时间
+     */
+    private Date createDate;
+
     private static final long serialVersionUID = 1L;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getBasicSalary() {
+        return basicSalary;
+    }
+
+    public void setBasicSalary(Integer basicSalary) {
+        this.basicSalary = basicSalary;
+    }
+
+    public Integer getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(Integer bonus) {
+        this.bonus = bonus;
+    }
+
+    public Integer getLunchSalary() {
+        return lunchSalary;
+    }
+
+    public void setLunchSalary(Integer lunchSalary) {
+        this.lunchSalary = lunchSalary;
+    }
+
+    public Integer getTrafficSalary() {
+        return trafficSalary;
+    }
+
+    public void setTrafficSalary(Integer trafficSalary) {
+        this.trafficSalary = trafficSalary;
+    }
+
+    public Integer getCasualLeave() {
+        return casualLeave;
+    }
+
+    public void setCasualLeave(Integer casualLeave) {
+        this.casualLeave = casualLeave;
+    }
+
+    public Integer getSickLeave() {
+        return sickLeave;
+    }
+
+    public void setSickLeave(Integer sickLeave) {
+        this.sickLeave = sickLeave;
+    }
+
+    public Integer getAllSalary() {
+        return allSalary;
+    }
+
+    public void setAllSalary(Integer allSalary) {
+        this.allSalary = allSalary;
+    }
+
+    public Integer getPensionBase() {
+        return pensionBase;
+    }
+
+    public void setPensionBase(Integer pensionBase) {
+        this.pensionBase = pensionBase;
+    }
+
+    public Float getPensionPer() {
+        return pensionPer;
+    }
+
+    public void setPensionPer(Float pensionPer) {
+        this.pensionPer = pensionPer;
+    }
+
+    public Integer getMedicalBase() {
+        return medicalBase;
+    }
+
+    public void setMedicalBase(Integer medicalBase) {
+        this.medicalBase = medicalBase;
+    }
+
+    public Float getMedicalPer() {
+        return medicalPer;
+    }
+
+    public void setMedicalPer(Float medicalPer) {
+        this.medicalPer = medicalPer;
+    }
+
+    public Integer getAccumulationFundBase() {
+        return accumulationFundBase;
+    }
+
+    public void setAccumulationFundBase(Integer accumulationFundBase) {
+        this.accumulationFundBase = accumulationFundBase;
+    }
+
+    public Float getAccumulationFundPer() {
+        return accumulationFundPer;
+    }
+
+    public void setAccumulationFundPer(Float accumulationFundPer) {
+        this.accumulationFundPer = accumulationFundPer;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 }

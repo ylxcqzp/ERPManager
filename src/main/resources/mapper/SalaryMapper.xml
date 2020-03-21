@@ -7,20 +7,22 @@
     <result column="bonus" jdbcType="INTEGER" property="bonus" />
     <result column="lunch_salary" jdbcType="INTEGER" property="lunchSalary" />
     <result column="traffic_salary" jdbcType="INTEGER" property="trafficSalary" />
+    <result column="casual_leave" jdbcType="INTEGER" property="casualLeave" />
+    <result column="sick_leave" jdbcType="INTEGER" property="sickLeave" />
     <result column="all_salary" jdbcType="INTEGER" property="allSalary" />
     <result column="pension_base" jdbcType="INTEGER" property="pensionBase" />
     <result column="pension_per" jdbcType="REAL" property="pensionPer" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="medical_base" jdbcType="INTEGER" property="medicalBase" />
     <result column="medical_per" jdbcType="REAL" property="medicalPer" />
     <result column="accumulation_fund_base" jdbcType="INTEGER" property="accumulationFundBase" />
     <result column="accumulation_fund_per" jdbcType="REAL" property="accumulationFundPer" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, basic_salary, bonus, lunch_salary, traffic_salary, all_salary, pension_base, 
-    pension_per, create_date, medical_base, medical_per, accumulation_fund_base, accumulation_fund_per, 
-    `name`
+    id, basic_salary, bonus, lunch_salary, traffic_salary, casual_leave, sick_leave, 
+    all_salary, pension_base, pension_per, medical_base, medical_per, accumulation_fund_base, 
+    accumulation_fund_per, `name`, create_date
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,21 +30,27 @@
     from salary
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="findAll" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from salary;
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from salary
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Salary" useGeneratedKeys="true">
     insert into salary (basic_salary, bonus, lunch_salary, 
-      traffic_salary, all_salary, pension_base, 
-      pension_per, create_date, medical_base, 
-      medical_per, accumulation_fund_base, accumulation_fund_per, 
-      `name`)
+      traffic_salary, casual_leave, sick_leave, 
+      all_salary, pension_base, pension_per, 
+      medical_base, medical_per, accumulation_fund_base, 
+      accumulation_fund_per, `name`, create_date
+      )
     values (#{basicSalary,jdbcType=INTEGER}, #{bonus,jdbcType=INTEGER}, #{lunchSalary,jdbcType=INTEGER}, 
-      #{trafficSalary,jdbcType=INTEGER}, #{allSalary,jdbcType=INTEGER}, #{pensionBase,jdbcType=INTEGER}, 
-      #{pensionPer,jdbcType=REAL}, #{createDate,jdbcType=TIMESTAMP}, #{medicalBase,jdbcType=INTEGER}, 
-      #{medicalPer,jdbcType=REAL}, #{accumulationFundBase,jdbcType=INTEGER}, #{accumulationFundPer,jdbcType=REAL}, 
-      #{name,jdbcType=VARCHAR})
+      #{trafficSalary,jdbcType=INTEGER}, #{casualLeave,jdbcType=INTEGER}, #{sickLeave,jdbcType=INTEGER}, 
+      #{allSalary,jdbcType=INTEGER}, #{pensionBase,jdbcType=INTEGER}, #{pensionPer,jdbcType=REAL}, 
+      #{medicalBase,jdbcType=INTEGER}, #{medicalPer,jdbcType=REAL}, #{accumulationFundBase,jdbcType=INTEGER}, 
+      #{accumulationFundPer,jdbcType=REAL}, #{name,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Salary" useGeneratedKeys="true">
     insert into salary
@@ -59,6 +67,12 @@
       <if test="trafficSalary != null">
         traffic_salary,
       </if>
+      <if test="casualLeave != null">
+        casual_leave,
+      </if>
+      <if test="sickLeave != null">
+        sick_leave,
+      </if>
       <if test="allSalary != null">
         all_salary,
       </if>
@@ -67,9 +81,6 @@
       </if>
       <if test="pensionPer != null">
         pension_per,
-      </if>
-      <if test="createDate != null">
-        create_date,
       </if>
       <if test="medicalBase != null">
         medical_base,
@@ -86,6 +97,9 @@
       <if test="name != null">
         `name`,
       </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="basicSalary != null">
@@ -100,6 +114,12 @@
       <if test="trafficSalary != null">
         #{trafficSalary,jdbcType=INTEGER},
       </if>
+      <if test="casualLeave != null">
+        #{casualLeave,jdbcType=INTEGER},
+      </if>
+      <if test="sickLeave != null">
+        #{sickLeave,jdbcType=INTEGER},
+      </if>
       <if test="allSalary != null">
         #{allSalary,jdbcType=INTEGER},
       </if>
@@ -108,9 +128,6 @@
       </if>
       <if test="pensionPer != null">
         #{pensionPer,jdbcType=REAL},
-      </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="medicalBase != null">
         #{medicalBase,jdbcType=INTEGER},
@@ -126,6 +143,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -144,6 +164,12 @@
       <if test="trafficSalary != null">
         traffic_salary = #{trafficSalary,jdbcType=INTEGER},
       </if>
+      <if test="casualLeave != null">
+        casual_leave = #{casualLeave,jdbcType=INTEGER},
+      </if>
+      <if test="sickLeave != null">
+        sick_leave = #{sickLeave,jdbcType=INTEGER},
+      </if>
       <if test="allSalary != null">
         all_salary = #{allSalary,jdbcType=INTEGER},
       </if>
@@ -152,9 +178,6 @@
       </if>
       <if test="pensionPer != null">
         pension_per = #{pensionPer,jdbcType=REAL},
-      </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="medicalBase != null">
         medical_base = #{medicalBase,jdbcType=INTEGER},
@@ -171,6 +194,9 @@
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -180,15 +206,17 @@
       bonus = #{bonus,jdbcType=INTEGER},
       lunch_salary = #{lunchSalary,jdbcType=INTEGER},
       traffic_salary = #{trafficSalary,jdbcType=INTEGER},
+      casual_leave = #{casualLeave,jdbcType=INTEGER},
+      sick_leave = #{sickLeave,jdbcType=INTEGER},
       all_salary = #{allSalary,jdbcType=INTEGER},
       pension_base = #{pensionBase,jdbcType=INTEGER},
       pension_per = #{pensionPer,jdbcType=REAL},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
       medical_base = #{medicalBase,jdbcType=INTEGER},
       medical_per = #{medicalPer,jdbcType=REAL},
       accumulation_fund_base = #{accumulationFundBase,jdbcType=INTEGER},
       accumulation_fund_per = #{accumulationFundPer,jdbcType=REAL},
-      `name` = #{name,jdbcType=VARCHAR}
+      `name` = #{name,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

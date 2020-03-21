@@ -8,6 +8,8 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -77,5 +79,14 @@ public class EmployeeService {
             return false;
         }
         return true;
+    }
+
+    public List<Employee> getAllEmp() {
+        return employeeMapper.selectAll();
+    }
+
+    @Transactional
+    public void multiInsert(List<Employee> employees) {
+        employeeMapper.multiInsert(employees);
     }
 }

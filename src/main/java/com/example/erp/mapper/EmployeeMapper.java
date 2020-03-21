@@ -3,8 +3,6 @@ package com.example.erp.mapper;
 import com.example.erp.entity.Employee;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
@@ -27,4 +25,6 @@ public interface EmployeeMapper {
     List<Employee> selectByOptions(@Param("emp") Employee employee, @Param("beginDateScope") Date[] beginDateScope);
 
     Long nextWorkId();
+
+    void multiInsert(@Param("list") List<Employee> employees);
 }

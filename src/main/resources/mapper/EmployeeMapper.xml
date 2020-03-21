@@ -437,4 +437,28 @@
     <select id="nextWorkId" resultType="java.lang.Long">
       select max(work_id) from employee
     </select>
+    <select id="multiInsert">
+      insert into employee (`name`, gender, birthday,
+                            id_card, `password`, wedlock,
+                            nationId, native_place, politicId,
+                            email, phone, address,
+                            departmentId, jobLevelId, posId,
+                            engage_form, tiptop_degree, specialty,
+                            school, begin_date, work_state,
+                            work_id, contract_term, conversion_time,
+                            notWork_date, begin_contract, end_contract,
+                            work_age)
+    <foreach collection="list" item="item" separator=",">
+      (#{name,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{birthday,jdbcType=DATE},
+      #{idCard,jdbcType=CHAR}, #{password,jdbcType=VARCHAR}, #{wedlock,jdbcType=CHAR},
+      #{item.nation.id,jdbcType=INTEGER}, #{nativePlace,jdbcType=VARCHAR}, #{item.politicsStatus.id,jdbcType=INTEGER},
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{item.department.id,jdbcType=INTEGER}, #{item.jobLevel.id,jdbcType=INTEGER}, #{item.position.id,jdbcType=INTEGER},
+      #{engageForm,jdbcType=VARCHAR}, #{tiptopDegree,jdbcType=CHAR}, #{specialty,jdbcType=VARCHAR},
+      #{school,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE}, #{workState,jdbcType=CHAR},
+      #{workId,jdbcType=CHAR}, #{contractTerm,jdbcType=DOUBLE}, #{conversionTime,jdbcType=DATE},
+      #{notworkDate,jdbcType=DATE}, #{beginContract,jdbcType=DATE}, #{endContract,jdbcType=DATE},
+      #{workAge,jdbcType=INTEGER})
+    </foreach>
+    </select>
 </mapper>

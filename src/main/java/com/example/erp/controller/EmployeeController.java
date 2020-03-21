@@ -1,11 +1,18 @@
 package com.example.erp.controller;
 
+import com.example.erp.constant.Constant;
 import com.example.erp.entity.*;
 import com.example.erp.service.*;
+import com.example.erp.util.ExcelForEmpUtils;
+import com.example.erp.util.ExcelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +73,23 @@ public class EmployeeController {
     public RespMes getNextId(){
         Long maxWorkId = employeeService.getNextWorkId();
         return RespMes.build().setStatus(200).setObj(String.format("%08d",maxWorkId+1));
+    }
+
+    @GetMapping("/exportData")
+    public ResponseEntity<byte[]> getExcel(HttpServletRequest request, HttpServletResponse response){
+        List<Employee> employees = employeeService.getAllEmp();
+        return ExcelForEmpUtils.employee2Excel(employees);
+    }
+
+    @PostMapping("/import")
+    public RespMes importData(MultipartFile file){
+        List<Employee> employees = ExcelForEmpUtils.excel2Employee(file, nationService.getAllNations(), politicsStatusService.geAllPoliticsStatus(), departmentService.getAllDeps(), positionService.getAllPositions(), jobLevelService.getAllJobLevels());
+        try {
+            employeeService.multiInsert(employees);
+        }catch (Exception e){
+            return RespMes.error("上传失败");
+        }
+        return RespMes.ok("上传成功");
     }
 
     @GetMapping("/nations")

@@ -11,7 +11,7 @@ import java.util.Date;
  * @author 
  */
 @Data
-public class Employee implements Serializable {
+public class Employee{
     /**
      * 员工编号
      */
@@ -160,6 +160,5 @@ public class Employee implements Serializable {
      */
     private Integer workAge;
 
-    private static final long serialVersionUID = 1L;
 
 }
