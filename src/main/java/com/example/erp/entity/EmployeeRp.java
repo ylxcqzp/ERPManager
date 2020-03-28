@@ -1,5 +1,6 @@
 package com.example.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class EmployeeRp implements Serializable {
     /**
      * 奖罚日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date rpDate;
 
     /**

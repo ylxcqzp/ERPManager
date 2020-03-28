@@ -1,5 +1,7 @@
 package com.example.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -80,6 +82,7 @@ public class Salary implements Serializable {
     /**
      * 启用时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date createDate;
 
     private static final long serialVersionUID = 1L;

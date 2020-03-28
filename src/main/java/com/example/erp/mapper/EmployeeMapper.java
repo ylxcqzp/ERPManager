@@ -27,4 +27,16 @@ public interface EmployeeMapper {
     Long nextWorkId();
 
     void multiInsert(@Param("list") List<Employee> employees);
+
+    List<Employee> getEmpWithSalary(@Param("keyword") String keyword);
+
+
+    int findByEid(Integer eid);
+
+
+    int insertToEmpSal(@Param("eid") Integer eid, @Param("sid") Integer sid);
+
+    int updateEmpSal(@Param("eid") Integer eid,@Param("sid") Integer sid);
+
+    Employee findByNameAndWorkId(@Param("name") String name,@Param("workId") String workId);
 }

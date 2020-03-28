@@ -1,6 +1,7 @@
 package com.example.erp.service;
 
 import com.example.erp.entity.Employee;
+import com.example.erp.entity.RespMes;
 import com.example.erp.entity.RespPageBean;
 import com.example.erp.mapper.EmployeeMapper;
 import com.github.pagehelper.Page;
@@ -88,5 +89,30 @@ public class EmployeeService {
     @Transactional
     public void multiInsert(List<Employee> employees) {
         employeeMapper.multiInsert(employees);
+    }
+
+    public RespPageBean getEmpsWithSal(String keyword,Integer page, Integer size) {
+        keyword = keyword != null?keyword.trim():null;
+        Page<Employee> pages = PageHelper.startPage(page, size);
+        List<Employee> list = employeeMapper.getEmpWithSalary(keyword);
+        RespPageBean pageBean = new RespPageBean();
+        pageBean.setTotal(pages.getTotal());
+        pageBean.setData(list);
+        return pageBean;
+    }
+
+    public RespMes updateEmpSalByEid(Integer eid, Integer sid) {
+        int count = employeeMapper.findByEid(eid);
+        try {
+            if (count == 0){
+                employeeMapper.insertToEmpSal(eid,sid);
+            }else {
+                employeeMapper.updateEmpSal(eid,sid);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return RespMes.error("更新失败");
+        }
+        return RespMes.ok("更新成功");
     }
 }

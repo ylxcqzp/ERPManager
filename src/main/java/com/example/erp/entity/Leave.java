@@ -1,12 +1,13 @@
 package com.example.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 员工请假表
+ * leave
  * @author 
  */
 @Data
@@ -23,11 +24,13 @@ public class Leave implements Serializable {
     /**
      * 请假开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date begin;
 
     /**
      * 请假结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date end;
 
     /**
@@ -38,8 +41,12 @@ public class Leave implements Serializable {
     /**
      * 是否批准（0，未处理；1，同意，2，拒绝）
      */
-    private Short status;
+    private Integer status;
 
-    private static final long serialVersionUID = 1L;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private Date startDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private Date handleDate;
 
 }

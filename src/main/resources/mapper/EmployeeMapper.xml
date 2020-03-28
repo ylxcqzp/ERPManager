@@ -28,9 +28,30 @@
     <result column="end_contract" jdbcType="DATE" property="endContract" />
     <result column="work_age" jdbcType="INTEGER" property="workAge" />
   </resultMap>
-  <select id="findEmpById" parameterType="int" resultMap="findEmpById">
+  <select id="findEmpById" parameterType="int" resultMap="BaseResultMap">
     select * from employee where employee.id = #{id}
   </select>
+
+  <resultMap id="EmployeeWithSalary" type="com.example.erp.entity.Employee" extends="BaseResultMap">
+    <association property="salary" javaType="com.example.erp.entity.Salary">
+      <id column="sid" property="id" jdbcType="INTEGER"/>
+      <result column="basic_salary" property="basicSalary" jdbcType="INTEGER"/>
+      <result column="bonus" property="bonus" jdbcType="INTEGER"/>
+      <result column="sick_leave" property="sickLeave" jdbcType="INTEGER"/>
+      <result column="casual_leave" property="casualLeave" jdbcType="INTEGER"/>
+      <result column="lunch_salary" property="lunchSalary" jdbcType="INTEGER"/>
+      <result column="traffic_salary" property="trafficSalary" jdbcType="INTEGER"/>
+      <result column="all_salary" property="allSalary" jdbcType="INTEGER"/>
+      <result column="pension_base" property="pensionBase" jdbcType="INTEGER"/>
+      <result column="pension_per" property="pensionPer" jdbcType="REAL"/>
+      <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+      <result column="medical_base" property="medicalBase" jdbcType="INTEGER"/>
+      <result column="medical_per" property="medicalPer" jdbcType="REAL"/>
+      <result column="accumulation_fund_base" property="accumulationFundBase" jdbcType="INTEGER"/>
+      <result column="accumulation_fund_per" property="accumulationFundPer" jdbcType="REAL"/>
+      <result column="sname" property="name" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
 
 
   <resultMap id="BaseResultMap" type="com.example.erp.entity.Employee">
@@ -277,6 +298,12 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertToEmpSal">
+    insert into empSalary(eid, sid)
+    values (#{eid},#{sid})
+  </insert>
+
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.Employee">
     update employee
     <set>
@@ -399,6 +426,10 @@
       work_age = #{workAge,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateEmpSal">
+    update empSalary set sid = #{sid}
+    where eid = #{eid}
+  </update>
   <select id="selectAll" resultMap="BaseResultMap">
         select id, `name`, gender, birthday, id_card, `password`, wedlock, nationId, native_place,
                politicId, email, phone, address, departmentId, jobLevelId, posId, engage_form, tiptop_degree,
@@ -461,4 +492,29 @@
       #{workAge,jdbcType=INTEGER})
     </foreach>
     </select>
+    <select id="getEmpWithSalary" resultMap="EmployeeWithSalary">
+        select e.*,s.id as sid, s.basic_salary basic_salary, s.bonus bonus, s.lunch_salary lunch_salary,
+               s.traffic_salary traffic_salary, s.casual_leave casual_leave, s.sick_leave sick_leave,
+               s.all_salary all_salary, s.pension_base pension_base, s.pension_per pension_per,
+               s.medical_base medical_base, s.medical_per medical_per, s.accumulation_fund_base accumulation_fund_base,
+               s.accumulation_fund_per accumulation_fund_per, s.`name` as sname, s.create_date create_date from employee e
+        left join empSalary on e.id = empSalary.eid
+        left join salary s on empSalary.sid = s.id
+        <where>
+          <if test="keyword != null and keyword != ''">
+            and e.name = #{keyword}
+            or e.id_card = #{keyword}
+          </if>
+        </where>
+        order by e.work_id
+    </select>
+  <select id="findByEid" resultType="java.lang.Integer">
+    select count(eid) from empSalary where eid = #{eid}
+  </select>
+  <select id="findByNameAndWorkId" resultMap="findEmpById">
+    select <include refid="Base_Column_List"/>
+    from employee
+    where work_id = #{workId}
+    and name = #{name}
+  </select>
 </mapper>

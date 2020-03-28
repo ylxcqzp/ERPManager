@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.erp.mapper.LeaveMapper">
+  <resultMap id="BaseResultMap1" type="com.example.erp.entity.Leave">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="begin" jdbcType="TIMESTAMP" property="begin" />
+    <result column="end" jdbcType="TIMESTAMP" property="end" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="handle_date" jdbcType="TIMESTAMP" property="handleDate" />
+    <association property="employee" column="eid" select="com.example.erp.mapper.EmployeeMapper.findEmpById"/>
+    <association property="hr" column="hrid" select="com.example.erp.mapper.HrMapper.findByHrId"/>
+  </resultMap>
+
   <resultMap id="BaseResultMap" type="com.example.erp.entity.Leave">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="begin" jdbcType="TIMESTAMP" property="begin" />
     <result column="end" jdbcType="TIMESTAMP" property="end" />
-    <result column="hrid" jdbcType="INTEGER" property="hrid" />
-    <result column="status" jdbcType="SMALLINT" property="status" />
-    <association property="employee" column="eid" select="com.example.erp.mapper.EmployeeMapper.findEmpById"/>
-    <association property="hr" column="hrid" select="com.example.erp.mapper.HrMapper.findByHrId"/>
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="handle_date" jdbcType="TIMESTAMP" property="handleDate" />
+    <association property="employee" javaType="com.example.erp.entity.Employee">
+      <id column="eid" jdbcType="INTEGER" property="id" />
+      <result column="ename" jdbcType="VARCHAR" property="name" />
+      <result column="gender" jdbcType="CHAR" property="gender" />
+      <result column="work_id" jdbcType="CHAR" property="workId" />
+      <association property="department" javaType="com.example.erp.entity.Department">
+        <id column="did" jdbcType="INTEGER" property="id" />
+        <result column="dname" jdbcType="VARCHAR" property="name" />
+        <result column="enabled" jdbcType="BIT" property="enabled" />
+      </association>
+    </association>
+    <association property="hr" javaType="com.example.erp.entity.Hr">
+      <id column="hid" jdbcType="INTEGER" property="id" />
+      <result column="hname" jdbcType="VARCHAR" property="name" />
+    </association>
   </resultMap>
+
   <sql id="Base_Column_List">
-    id, eid, reason, `begin`, `end`, hrid, `status`
+    id, eid, reason, `begin`, `end`, hrid, `status`, start_date, handle_date
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -20,17 +47,34 @@
     from leave
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getLeavesWithCondition" resultMap="BaseResultMap">
+    select l.* ,e.id eid,e.name ename,
+           e.gender,e.work_id,d.id did,d.name dname,hr.id hid,hr.name hname,hr.enabled from `leave` l
+    left join employee e on l.eid = e.id
+    left join hr on l.hrid = hr.id
+    left join department d on e.departmentId = d.id
+    <where>
+      <if test="keyword != null and keyword != ''">
+        and e.name = #{keyword}
+      </if>
+    </where>
+  </select>
+  <select id="getLeavesByDate" resultMap="BaseResultMap1">
+    select <include refid="Base_Column_List"/>
+    from `leave`
+    where start_date between #{begin} and #{end}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from leave
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Leave" useGeneratedKeys="true">
     insert into leave (eid, reason, `begin`, 
-      `end`, hrid, `status`
-      )
+      `end`, hrid, `status`, 
+      start_date, handle_date)
     values (#{eid,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, #{begin,jdbcType=TIMESTAMP}, 
-      #{end,jdbcType=TIMESTAMP}, #{hrid,jdbcType=INTEGER}, #{status,jdbcType=SMALLINT}
-      )
+      #{end,jdbcType=TIMESTAMP}, #{hrid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{handleDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Leave" useGeneratedKeys="true">
     insert into leave
@@ -53,6 +97,12 @@
       <if test="status != null">
         `status`,
       </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="handleDate != null">
+        handle_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="eid != null">
@@ -71,7 +121,13 @@
         #{hrid,jdbcType=INTEGER},
       </if>
       <if test="status != null">
-        #{status,jdbcType=SMALLINT},
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleDate != null">
+        #{handleDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -94,7 +150,13 @@
         hrid = #{hrid,jdbcType=INTEGER},
       </if>
       <if test="status != null">
-        `status` = #{status,jdbcType=SMALLINT},
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleDate != null">
+        handle_date = #{handleDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -106,7 +168,16 @@
       `begin` = #{begin,jdbcType=TIMESTAMP},
       `end` = #{end,jdbcType=TIMESTAMP},
       hrid = #{hrid,jdbcType=INTEGER},
-      `status` = #{status,jdbcType=SMALLINT}
+      `status` = #{status,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      handle_date = #{handleDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateStatus">
+    update `leave`
+    set `status` = #{status},
+        hrid = #{hrid},
+        handle_date = #{handleDate}
+    where id =#{id}
   </update>
 </mapper>

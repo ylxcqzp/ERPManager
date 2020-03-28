@@ -160,5 +160,7 @@ public class Employee{
      */
     private Integer workAge;
 
+    private Salary salary;
+
 
 }

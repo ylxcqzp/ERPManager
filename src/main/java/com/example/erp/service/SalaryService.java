@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ public class SalaryService {
     @Transactional
     public boolean addSalary(Salary salary) {
         try {
+            salary.setCreateDate(new Date());
             salaryMapper.insertSelective(salary);
         }catch (Exception e){
             e.printStackTrace();
@@ -36,6 +38,7 @@ public class SalaryService {
     @Transactional
     public boolean updateSalary(Salary salary) {
         try {
+            salary.setCreateDate(new Date());
             salaryMapper.updateByPrimaryKeySelective(salary);
         }catch (Exception e){
             e.printStackTrace();
