@@ -115,4 +115,12 @@ public class EmployeeService {
         }
         return RespMes.ok("更新成功");
     }
+
+    public Integer getEmpIdByWorkId(String workId) {
+        return employeeMapper.getIdByWorkId(workId);
+    }
+
+    public Employee getEmpByWorkId(String workId) {
+        return employeeMapper.getEmpByWorkId(workId);
+    }
 }

@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 @Accessors(chain = true)
 @Data
-public class Department implements Serializable {
+public class Department{
     private Integer id;
 
     /**
@@ -32,7 +32,6 @@ public class Department implements Serializable {
 
     private List<Department> children = new ArrayList<>();
 
-    private static final long serialVersionUID = 1L;
 
 
     @Override

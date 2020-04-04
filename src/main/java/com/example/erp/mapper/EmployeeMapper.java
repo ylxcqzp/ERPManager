@@ -39,4 +39,10 @@ public interface EmployeeMapper {
     int updateEmpSal(@Param("eid") Integer eid,@Param("sid") Integer sid);
 
     Employee findByNameAndWorkId(@Param("name") String name,@Param("workId") String workId);
+
+    Integer getIdByWorkId(@Param("workId") String workId);
+
+    Employee getEmpByWorkId(@Param("workId") String workId);
+
+    int updateDepAndPos(Employee employee);
 }

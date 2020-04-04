@@ -34,6 +34,11 @@
       select <include refid="Base_Column_List"/>
       from salary;
     </select>
+    <select id="findByEid" resultMap="BaseResultMap">
+      select s.* from salary s
+      left join empSalary eS on s.id = eS.sid
+      where eS.eid = #{eid}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from salary
     where id = #{id,jdbcType=INTEGER}

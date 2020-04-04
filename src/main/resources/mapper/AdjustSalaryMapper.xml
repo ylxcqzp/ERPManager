@@ -8,7 +8,37 @@
     <result column="afterSalary" jdbcType="INTEGER" property="afterSalary" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <association property="employee" column="eid" select="com.example.erp.mapper.EmployeeMapper.findEmpById"/>
+    <association property="employee" javaType="com.example.erp.entity.Employee">
+      <id column="eid" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="gender" jdbcType="CHAR" property="gender" />
+      <result column="birthday" jdbcType="DATE" property="birthday" />
+      <result column="idCard" jdbcType="CHAR" property="idCard" />
+      <result column="password" jdbcType="VARCHAR" property="password" />
+      <result column="wedlock" jdbcType="CHAR" property="wedlock" />
+      <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+      <result column="email" jdbcType="VARCHAR" property="email" />
+      <result column="phone" jdbcType="VARCHAR" property="phone" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="engage_form" jdbcType="VARCHAR" property="engageForm" />
+      <result column="tiptop_degree" jdbcType="CHAR" property="tiptopDegree" />
+      <result column="specialty" jdbcType="VARCHAR" property="specialty" />
+      <result column="school" jdbcType="VARCHAR" property="school" />
+      <result column="begin_date" jdbcType="DATE" property="beginDate" />
+      <result column="work_state" jdbcType="CHAR" property="workState" />
+      <result column="work_id" jdbcType="CHAR" property="workId" />
+      <result column="contract_term" jdbcType="DOUBLE" property="contractTerm" />
+      <result column="conversion_time" jdbcType="DATE" property="conversionTime" />
+      <result column="notWork_date" jdbcType="DATE" property="notworkDate" />
+      <result column="begin_contract" jdbcType="DATE" property="beginContract" />
+      <result column="end_contract" jdbcType="DATE" property="endContract" />
+      <result column="work_age" jdbcType="INTEGER" property="workAge" />
+      <association property="department" javaType="com.example.erp.entity.Department">
+        <id column="did" jdbcType="INTEGER" property="id" />
+        <result column="dname" jdbcType="VARCHAR" property="name" />
+        <result column="enabled" jdbcType="BIT" property="enabled" />
+      </association>
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     id, eid, `date`, beforeSalary, afterSalary, reason, remark
@@ -18,6 +48,24 @@
     <include refid="Base_Column_List" />
     from adjustSalary
     where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getAdjustSalaryByCondition" resultMap="BaseResultMap">
+        select a.*,e.id eid,e.name,e.work_id,e.gender,e.begin_date,e.birthday, d.name dname,d.enabled,d.id did from adjustSalary a
+        left join employee e on a.eid = e.id
+        left join department d on e.departmentId = d.id
+        <where>
+          <if test="keyword != null and keyword != ''">
+            and e.name = #{keyword}
+          </if>
+        </where>
+        order by ${orderName} ${orderBy}
+    </select>
+  <select id="getByEid" resultMap="BaseResultMap">
+    select e.id eid,e.name,e.work_id,e.gender,e.begin_date,e.birthday,s.basic_salary,d.name dname,d.enabled,d.id,s.basic_salary as beforeSalary from empSalary eS
+    left join employee e on eS.eid = e.id
+    left join salary s on eS.sid = s.id
+    left join department d on e.departmentId = d.id
+    where eS.eid = #{eid}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from adjustSalary
@@ -34,7 +82,7 @@
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.AdjustSalary" useGeneratedKeys="true">
     insert into adjustSalary
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="eid != null">
+      <if test="employee.id != null">
         eid,
       </if>
       <if test="date != null">
@@ -54,8 +102,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="eid != null">
-        #{eid,jdbcType=INTEGER},
+      <if test="employee.id != null">
+        #{employee.id,jdbcType=INTEGER},
       </if>
       <if test="date != null">
         #{date,jdbcType=DATE},

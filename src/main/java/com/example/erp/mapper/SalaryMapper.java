@@ -1,7 +1,9 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.Salary;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -20,4 +22,6 @@ public interface SalaryMapper {
     int updateByPrimaryKey(Salary record);
 
     List<Salary> findAll();
+
+    Salary findByEid(@Param("eid") Integer eid);
 }

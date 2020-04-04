@@ -430,6 +430,12 @@
     update empSalary set sid = #{sid}
     where eid = #{eid}
   </update>
+  <update id="updateDepAndPos">
+    update employee
+    set departmentId = #{department.id},
+        posId = #{position.id}
+    where id = #{id}
+  </update>
   <select id="selectAll" resultMap="BaseResultMap">
         select id, `name`, gender, birthday, id_card, `password`, wedlock, nationId, native_place,
                politicId, email, phone, address, departmentId, jobLevelId, posId, engage_form, tiptop_degree,
@@ -517,4 +523,10 @@
     where work_id = #{workId}
     and name = #{name}
   </select>
+  <select id="getIdByWorkId" resultType="java.lang.Integer">
+    select id from employee where work_id = #{workId}
+  </select>
+    <select id="getEmpByWorkId" resultMap="BaseResultMap">
+        select id,name,work_id,gender,begin_date,posId,departmentId from employee where work_id = #{workId}
+    </select>
 </mapper>

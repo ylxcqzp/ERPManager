@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 员工调动表
+ * empRemove
  * @author 
  */
 @Data
-public class EmpRemove implements Serializable {
+public class EmpRemove{
     private Integer id;
 
     private Employee employee;
@@ -18,12 +18,12 @@ public class EmpRemove implements Serializable {
     /**
      * 调动后部门
      */
-    private Integer afterdepid;
+    private Integer afterDepartment;
 
     /**
      * 调动后职位
      */
-    private Integer afterjobid;
+    private Integer afterPosition;
 
     /**
      * 调动日期
@@ -36,7 +36,5 @@ public class EmpRemove implements Serializable {
     private String reason;
 
     private String remark;
-
-    private static final long serialVersionUID = 1L;
 
 }

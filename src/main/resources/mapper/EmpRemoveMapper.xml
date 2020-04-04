@@ -3,15 +3,15 @@
 <mapper namespace="com.example.erp.mapper.EmpRemoveMapper">
   <resultMap id="BaseResultMap" type="com.example.erp.entity.EmpRemove">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="afterDepId" jdbcType="INTEGER" property="afterdepid" />
-    <result column="afterJobId" jdbcType="INTEGER" property="afterjobid" />
-    <result column="removeDate" jdbcType="DATE" property="removeDate" />
+    <result column="after_department" jdbcType="INTEGER" property="afterDepartment" />
+    <result column="after_position" jdbcType="INTEGER" property="afterPosition" />
+    <result column="remove_date" jdbcType="DATE" property="removeDate" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <association property="employee" column="eid" select="com.example.erp.mapper.EmployeeMapper.findEmpById"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, eid, afterDepId, afterJobId, removeDate, reason, remark
+    id, eid, after_department, after_position, remove_date, reason, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,27 +24,27 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.EmpRemove" useGeneratedKeys="true">
-    insert into empRemove (eid, afterDepId, afterJobId, 
-      removeDate, reason, remark
+    insert into empRemove (eid, after_department, after_position, 
+      remove_date, reason, remark
       )
-    values (#{eid,jdbcType=INTEGER}, #{afterdepid,jdbcType=INTEGER}, #{afterjobid,jdbcType=INTEGER}, 
+    values (#{eid,jdbcType=INTEGER}, #{afterDepartment,jdbcType=INTEGER}, #{afterPosition,jdbcType=INTEGER}, 
       #{removeDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.EmpRemove" useGeneratedKeys="true">
     insert into empRemove
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="eid != null">
+      <if test="employee.id != null">
         eid,
       </if>
-      <if test="afterdepid != null">
-        afterDepId,
+      <if test="afterDepartment != null">
+        after_department,
       </if>
-      <if test="afterjobid != null">
-        afterJobId,
+      <if test="afterPosition != null">
+        after_position,
       </if>
       <if test="removeDate != null">
-        removeDate,
+        remove_date,
       </if>
       <if test="reason != null">
         reason,
@@ -54,17 +54,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="eid != null">
-        #{eid,jdbcType=INTEGER},
+      <if test="employee.id != null">
+        #{employee.id,jdbcType=INTEGER},
       </if>
-      <if test="afterdepid != null">
-        #{afterdepid,jdbcType=INTEGER},
+      <if test="afterDepartment != null">
+        #{afterDepartment,jdbcType=INTEGER},
       </if>
-      <if test="afterjobid != null">
-        #{afterjobid,jdbcType=INTEGER},
+      <if test="afterPosition != null">
+        #{afterPosition,jdbcType=INTEGER},
       </if>
       <if test="removeDate != null">
-        #{removedate,jdbcType=DATE},
+        #{removeDate,jdbcType=DATE},
       </if>
       <if test="reason != null">
         #{reason,jdbcType=VARCHAR},
@@ -80,14 +80,14 @@
       <if test="eid != null">
         eid = #{eid,jdbcType=INTEGER},
       </if>
-      <if test="afterdepid != null">
-        afterDepId = #{afterdepid,jdbcType=INTEGER},
+      <if test="afterDepartment != null">
+        after_department = #{afterDepartment,jdbcType=INTEGER},
       </if>
-      <if test="afterjobid != null">
-        afterJobId = #{afterjobid,jdbcType=INTEGER},
+      <if test="afterPosition != null">
+        after_position = #{afterPosition,jdbcType=INTEGER},
       </if>
       <if test="removeDate != null">
-        removeDate = #{removeDate,jdbcType=DATE},
+        remove_date = #{removeDate,jdbcType=DATE},
       </if>
       <if test="reason != null">
         reason = #{reason,jdbcType=VARCHAR},
@@ -101,9 +101,9 @@
   <update id="updateByPrimaryKey" parameterType="com.example.erp.entity.EmpRemove">
     update empRemove
     set eid = #{eid,jdbcType=INTEGER},
-      afterDepId = #{afterdepid,jdbcType=INTEGER},
-      afterJobId = #{afterjobid,jdbcType=INTEGER},
-      removeDate = #{removeDate,jdbcType=DATE},
+      after_department = #{afterDepartment,jdbcType=INTEGER},
+      after_position = #{afterPosition,jdbcType=INTEGER},
+      remove_date = #{removeDate,jdbcType=DATE},
       reason = #{reason,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

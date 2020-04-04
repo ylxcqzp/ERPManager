@@ -1,5 +1,6 @@
 package com.example.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class AdjustSalary implements Serializable {
     /**
      * 调薪日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date date;
 
     /**

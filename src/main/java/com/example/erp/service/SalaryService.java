@@ -1,6 +1,8 @@
 package com.example.erp.service;
 
+import com.example.erp.entity.RespMes;
 import com.example.erp.entity.Salary;
+import com.example.erp.mapper.AdjustSalaryMapper;
 import com.example.erp.mapper.SalaryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class SalaryService {
 
     @Autowired
     private SalaryMapper salaryMapper;
+    @Autowired
+    private AdjustSalaryMapper adjustSalaryMapper;
 
     public List<Salary> getAllSalaries() {
         return salaryMapper.findAll();
@@ -57,4 +61,10 @@ public class SalaryService {
         }
         return true;
     }
+
+    public RespMes getSalaryByEid(Integer eid) {
+        Salary salary = salaryMapper.findByEid(eid);
+        return RespMes.ok("",salary);
+    }
+
 }
