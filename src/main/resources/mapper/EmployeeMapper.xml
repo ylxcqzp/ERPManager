@@ -87,7 +87,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, `name`, gender, birthday, id_card, wedlock, nationId, native_place,
-    politicId, email, phone, address, departmentId, jobLevelId, posId, engage_form, tiptop_degree, 
+    politicId, email,`password`, phone, address, departmentId, jobLevelId, posId, engage_form, tiptop_degree,
     specialty, school, begin_date, work_state, work_id, contract_term, conversion_time, 
     notWork_date, begin_contract, end_contract, work_age
   </sql>
@@ -529,4 +529,9 @@
     <select id="getEmpByWorkId" resultMap="BaseResultMap">
         select id,name,work_id,gender,begin_date,posId,departmentId from employee where work_id = #{workId}
     </select>
+  <select id="getEmployeeByWorkId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from employee
+    where work_id = #{workId}
+  </select>
 </mapper>

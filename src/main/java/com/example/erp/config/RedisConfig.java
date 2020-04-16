@@ -1,4 +1,4 @@
-/*package com.example.erp.config;
+package com.example.erp.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -10,10 +10,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-*//**
+/**
  * @author qzp
  * @date 2020/2/18
- *//*
+ */
 @Configuration
 public class RedisConfig {
 
@@ -28,7 +28,7 @@ public class RedisConfig {
         objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jsonRedisSerializer.setObjectMapper(objectMapper);
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-        *//*key采用String的序列化*//*
+        /*key采用String的序列化*/
         template.setKeySerializer(stringRedisSerializer);
         template.setHashKeySerializer(stringRedisSerializer);
         template.setValueSerializer(jsonRedisSerializer);
@@ -36,4 +36,4 @@ public class RedisConfig {
         template.afterPropertiesSet();
         return template;
     }
-}*/
+}

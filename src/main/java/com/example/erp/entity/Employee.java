@@ -11,7 +11,7 @@ import java.util.Date;
  * @author 
  */
 @Data
-public class Employee{
+public class Employee {
     /**
      * 员工编号
      */

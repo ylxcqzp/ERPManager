@@ -45,4 +45,6 @@ public interface EmployeeMapper {
     Employee getEmpByWorkId(@Param("workId") String workId);
 
     int updateDepAndPos(Employee employee);
+
+    Employee getEmployeeByWorkId(@Param("workId") String workId);
 }

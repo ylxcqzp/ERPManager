@@ -123,4 +123,8 @@ public class EmployeeService {
     public Employee getEmpByWorkId(String workId) {
         return employeeMapper.getEmpByWorkId(workId);
     }
+
+    public Employee getEmployeeByWorkId(String workId) {
+        return employeeMapper.getEmployeeByWorkId(workId);
+    }
 }

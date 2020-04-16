@@ -16,13 +16,13 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/system/")
 public class MenuController {
     @Autowired
     private MenuService menuService;
-    @RequestMapping("/menus")
+    @RequestMapping("/system/menus")
     public List<Menu> getMenusByUserId(){
         log.info("==========开始加载菜单栏=======");
         return menuService.getMenuByUserId();
     }
+
 }

@@ -27,6 +27,5 @@ public class Comment implements Serializable {
      */
     private Date createDate;
 
-    private static final long serialVersionUID = 1L;
 
 }

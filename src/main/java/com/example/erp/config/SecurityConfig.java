@@ -112,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/login","/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico");
+                .antMatchers("/login","/empLogin","/emp_sys/**","/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico");
         //放行swagger
         web.ignoring().antMatchers(
                 "/v2/api-docs",
