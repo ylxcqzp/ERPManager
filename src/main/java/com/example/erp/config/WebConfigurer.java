@@ -16,7 +16,7 @@ public class WebConfigurer implements WebMvcConfigurer{
     private TokenHeaderInterceptor tokenHeaderInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenHeaderInterceptor).addPathPatterns("/emp/**");
+        registry.addInterceptor(tokenHeaderInterceptor).addPathPatterns("/emp_sys/**");
     }
 
 }

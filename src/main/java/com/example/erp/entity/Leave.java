@@ -14,7 +14,14 @@ import java.util.Date;
 public class Leave implements Serializable {
     private Integer id;
 
+    private Integer eid;
+
     private Employee employee;
+
+    /**
+     * 类型
+     */
+    private Integer type;
 
     /**
      * 请假原因

@@ -67,7 +67,13 @@
     left join department d on e.departmentId = d.id
     where eS.eid = #{eid}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getEmpNewAdjustRecord" resultType="com.example.erp.entity.AdjustSalary">
+      select id, a.eid eid, afterSalary
+      from adjustSalary a RIGHT JOIN
+                    (select eid, MAX(date) as "createDate" from adjustSalary adj GROUP BY eid) tmp
+                    on a.date = tmp.createDate and a.eid=tmp.eid
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from adjustSalary
     where id = #{id,jdbcType=INTEGER}
   </delete>

@@ -6,12 +6,17 @@
     <result column="pid" jdbcType="INTEGER" property="pid" />
     <result column="mission_name" jdbcType="VARCHAR" property="missionName" />
     <result column="mission_detail" jdbcType="VARCHAR" property="missionDetail" />
+    <result column="invoke" jdbcType="VARCHAR" property="invoke" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
     <result column="begin_date" jdbcType="DATE" property="beginDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="status" jdbcType="BIGINT" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <association property="employee" column="manager_id" select="com.example.erp.mapper.EmployeeMapper.findNameById"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, pid, mission_name, mission_detail, begin_date, end_date, `status`
+    id, pid, mission_name, mission_detail, manager_id, invoke, tag, begin_date, end_date, 
+    `status`, create_date
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -19,17 +24,29 @@
     from mission
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByPid" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from mission
+      where pid = #{pid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mission
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteManager">
+    update mission
+    set manager_id = null
+    where id = #{missionId}
+  </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Mission" useGeneratedKeys="true">
     insert into mission (pid, mission_name, mission_detail, 
-      begin_date, end_date, `status`
-      )
+      manager_id, invoke, tag, 
+      begin_date, end_date, `status`, 
+      create_date)
     values (#{pid,jdbcType=INTEGER}, #{missionName,jdbcType=VARCHAR}, #{missionDetail,jdbcType=VARCHAR}, 
-      #{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{status,jdbcType=BIGINT}
-      )
+      #{managerId,jdbcType=INTEGER}, #{invoke,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, 
+      #{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{status,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Mission" useGeneratedKeys="true">
     insert into mission
@@ -43,6 +60,15 @@
       <if test="missionDetail != null">
         mission_detail,
       </if>
+      <if test="managerId != null">
+        manager_id,
+      </if>
+      <if test="invoke != null">
+        invoke,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
       <if test="beginDate != null">
         begin_date,
       </if>
@@ -51,6 +77,9 @@
       </if>
       <if test="status != null">
         `status`,
+      </if>
+      <if test="createDate != null">
+        create_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -63,6 +92,15 @@
       <if test="missionDetail != null">
         #{missionDetail,jdbcType=VARCHAR},
       </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="invoke != null">
+        #{invoke,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
       <if test="beginDate != null">
         #{beginDate,jdbcType=DATE},
       </if>
@@ -71,6 +109,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -86,6 +127,15 @@
       <if test="missionDetail != null">
         mission_detail = #{missionDetail,jdbcType=VARCHAR},
       </if>
+      <if test="employee != null">
+        manager_id = #{employee.id,jdbcType=INTEGER},
+      </if>
+      <if test="invoke != null">
+        invoke = #{invoke,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
       <if test="beginDate != null">
         begin_date = #{beginDate,jdbcType=DATE},
       </if>
@@ -95,6 +145,9 @@
       <if test="status != null">
         `status` = #{status,jdbcType=BIGINT},
       </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -103,9 +156,13 @@
     set pid = #{pid,jdbcType=INTEGER},
       mission_name = #{missionName,jdbcType=VARCHAR},
       mission_detail = #{missionDetail,jdbcType=VARCHAR},
+      manager_id = #{managerId,jdbcType=INTEGER},
+      invoke = #{invoke,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=VARCHAR},
       begin_date = #{beginDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
-      `status` = #{status,jdbcType=BIGINT}
+      `status` = #{status,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -11,14 +11,25 @@
     id, project_name, detail, `status`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from Project
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getProjectsByEid" resultMap="BaseResultMap">
+        select p.id id, project_name, detail, `status`
+        from Project p
+        inner join emp_pro_rel epr on p.id = epr.pid
+        where eid = #{eid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from Project
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteFromEmpPro">
+    delete from emp_pro_rel
+    where eid = #{eid}
+    and pid = #{pid}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Project" useGeneratedKeys="true">
     insert into Project (project_name, detail, `status`

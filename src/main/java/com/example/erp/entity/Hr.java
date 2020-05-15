@@ -111,7 +111,6 @@ public class Hr implements UserDetails {
     }
 
     @Override
-    @JsonIgnore
     public boolean isEnabled() {
         return enabled;
     }

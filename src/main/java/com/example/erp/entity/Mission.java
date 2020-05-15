@@ -1,13 +1,14 @@
 package com.example.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * mission 任务表
- * @author qzp
+ * mission
+ * @author 
  */
 @Data
 public class Mission implements Serializable {
@@ -29,13 +30,30 @@ public class Mission implements Serializable {
     private String missionDetail;
 
     /**
+     * 负责人
+     */
+    private Employee employee;
+
+    /**
+     * 参与人
+     */
+    private String invoke;
+
+    /**
+     * 标签
+     */
+    private String tag;
+
+    /**
      * 开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date beginDate;
 
     /**
      * 截至时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date endDate;
 
     /**
@@ -43,6 +61,7 @@ public class Mission implements Serializable {
      */
     private Long status;
 
-    private static final long serialVersionUID = 1L;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private Date createDate;
 
 }

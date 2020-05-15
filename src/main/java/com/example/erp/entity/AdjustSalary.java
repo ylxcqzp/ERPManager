@@ -14,6 +14,8 @@ import java.util.Date;
 public class AdjustSalary implements Serializable {
     private Integer id;
 
+    private Integer eid;
+
     private Employee employee;
 
     /**
@@ -42,6 +44,5 @@ public class AdjustSalary implements Serializable {
      */
     private String remark;
 
-    private static final long serialVersionUID = 1L;
 
 }

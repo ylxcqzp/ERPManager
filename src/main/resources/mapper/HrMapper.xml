@@ -44,6 +44,18 @@
     join role r on r.id = hrr.rid
     where hr.id = #{id}
   </select>
+    <select id="getAllHrs" resultMap="HrWithRoles">
+      select hr.id, hr.name, hr.phone, hr.telephone, hr.address, hr.enabled, hr.username, hr.userface,
+      hr.remark,r.`id` as rid,r.`name` as rname,r.`nameZh` as rnameZh from hr left join hr_role hrr on
+      hr.`id`=hrr.`hrid` left join role r on hrr.`rid`=r.`id` where hr.`id`!=#{hrid}
+      <if test="keywords!=null">
+        and hr.name like concat('%',#{keywords},'%')
+      </if>
+      order by hr.id
+    </select>
+  <select id="getFaceUrl" resultType="java.lang.String">
+    select userface from hr where id = #{id}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from hr
     where id = #{id,jdbcType=INTEGER}
@@ -164,5 +176,9 @@
       userface = #{userface,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateFaceUrl">
+    update hr set userface = #{filepath}
+    where id = #{id}
   </update>
 </mapper>

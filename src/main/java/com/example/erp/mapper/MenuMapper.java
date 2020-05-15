@@ -25,4 +25,5 @@ public interface MenuMapper {
 
     List<Menu> getMenusByHrId(Integer hrid);
 
+    List<Integer> getMidsByRid(Integer rid);
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,5 +19,23 @@ public class JobLevelService {
     private JobLevelMapper jobLevelMapper;
     public List<JobLevel> getAllJobLevels() {
         return jobLevelMapper.getAll();
+    }
+
+    public Integer addJobLevel(JobLevel jobLevel) {
+        jobLevel.setCreateDate(new Date());
+        jobLevel.setEnabled(true);
+        return jobLevelMapper.insertSelective(jobLevel);
+    }
+
+    public Integer updateJobLevelById(JobLevel jobLevel) {
+        return jobLevelMapper.updateByPrimaryKeySelective(jobLevel);
+    }
+
+    public Integer deleteJobLevelById(Integer id) {
+        return jobLevelMapper.deleteByPrimaryKey(id);
+    }
+
+    public Integer deleteJobLevelsByIds(Integer[] ids) {
+        return jobLevelMapper.deleteJobLevelsByIds(ids);
     }
 }

@@ -3,6 +3,7 @@
 <mapper namespace="com.example.erp.mapper.LeaveMapper">
   <resultMap id="BaseResultMap1" type="com.example.erp.entity.Leave">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type"/>
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="begin" jdbcType="TIMESTAMP" property="begin" />
     <result column="end" jdbcType="TIMESTAMP" property="end" />
@@ -15,6 +16,7 @@
 
   <resultMap id="BaseResultMap" type="com.example.erp.entity.Leave">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type"/>
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="begin" jdbcType="TIMESTAMP" property="begin" />
     <result column="end" jdbcType="TIMESTAMP" property="end" />
@@ -35,11 +37,12 @@
     <association property="hr" javaType="com.example.erp.entity.Hr">
       <id column="hid" jdbcType="INTEGER" property="id" />
       <result column="hname" jdbcType="VARCHAR" property="name" />
+      <result column="henable" jdbcType="BIT" property="enabled"/>
     </association>
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, eid, reason, `begin`, `end`, hrid, `status`, start_date, handle_date
+    id, eid, type, reason, `begin`, `end`, hrid, `status`, start_date, handle_date
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -49,7 +52,7 @@
   </select>
   <select id="getLeavesWithCondition" resultMap="BaseResultMap">
     select l.* ,e.id eid,e.name ename,
-           e.gender,e.work_id,d.id did,d.name dname,hr.id hid,hr.name hname,hr.enabled from `leave` l
+           e.gender,e.work_id,d.id did,d.name dname,hr.id hid,hr.name hname,hr.enabled henable from `leave` l
     left join employee e on l.eid = e.id
     left join hr on l.hrid = hr.id
     left join department d on e.departmentId = d.id
@@ -64,6 +67,14 @@
     from `leave`
     where start_date between #{begin} and #{end}
   </select>
+    <select id="getLeaveByDateScope" resultType="com.example.erp.entity.Leave">
+      select eid,begin,end from `leave` where status = 1
+      and handle_date between #{beginDate} and #{endDate}
+    </select>
+  <select id="findByEid" resultMap="BaseResultMap1">
+    select id, type,`begin`, `end`, hrid, `status`, start_date from `leave`
+    where eid = #{eid}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from leave
     where id = #{id,jdbcType=INTEGER}
@@ -76,8 +87,8 @@
       #{end,jdbcType=TIMESTAMP}, #{hrid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{startDate,jdbcType=TIMESTAMP}, #{handleDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Leave" useGeneratedKeys="true">
-    insert into leave
+  <insert id="insertSelective" parameterType="com.example.erp.entity.Leave">
+    insert into `leave`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="eid != null">
         eid,
@@ -91,7 +102,7 @@
       <if test="end != null">
         `end`,
       </if>
-      <if test="hrid != null">
+      <if test="hr != null">
         hrid,
       </if>
       <if test="status != null">
@@ -117,8 +128,8 @@
       <if test="end != null">
         #{end,jdbcType=TIMESTAMP},
       </if>
-      <if test="hrid != null">
-        #{hrid,jdbcType=INTEGER},
+      <if test="hr != null">
+        #{hr.id,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -131,8 +142,12 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertLeave">
+    insert into `leave`(eid,type,reason,begin,end,start_date)
+    values (#{eid},#{type},#{reason},#{begin},#{end},#{startDate})
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.Leave">
-    update leave
+    update `leave`
     <set>
       <if test="eid != null">
         eid = #{eid,jdbcType=INTEGER},

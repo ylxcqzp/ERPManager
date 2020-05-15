@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.mapper.SalaryDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.example.erp.entity.SalaryDetails">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="basic_pay" jdbcType="INTEGER" property="basicPay" />
+    <result column="leave_count" jdbcType="INTEGER" property="leaveCount" />
+    <result column="reward" jdbcType="INTEGER" property="reward" />
+    <result column="punishes" jdbcType="INTEGER" property="punishes" />
+    <result column="paid_wages" jdbcType="DOUBLE" property="paidWages" />
+    <result column="dispense_date" jdbcType="TIMESTAMP" property="dispenseDate" />
+    <association property="salary" column="sid" select="com.example.erp.mapper.SalaryMapper.findSalaryById"/>
+    <association property="employee" column="eid" select="com.example.erp.mapper.EmployeeMapper.findEmpById"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, eid, sid, basic_pay, leave_count, reward, punishes, paid_wages, dispense_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from salary_details
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByOptions" resultMap="BaseResultMap">
+    select salary_details.id id,eid, sid, basic_pay, leave_count, reward, punishes, paid_wages, dispense_date
+    from salary_details join employee
+    on salary_details.eid = employee.id
+    join position on employee.posId = position.id
+    join department d on employee.departmentId = d.id
+    <where>
+      <if test="emp.name != null and emp.name != ''">
+        and employee.`name` like concat('%',#{emp.name},'%')
+      </if>
+      <if test="emp.workId != null and emp.workId != ''">
+        and employee.work_id = #{emp.workId}
+      </if>
+      <if test="emp.position != null">
+        and employee.posId = #{emp.position.id}
+      </if>
+      <if test="emp.department != null">
+        and employee.departmentId = #{emp.department.id}
+      </if>
+      <if test="beginDate != null">
+        and dispense_date &gt;= #{beginDate}
+      </if>
+      <if test="endDate != null">
+        and dispense_date &lt;= #{endDate}
+      </if>
+    </where>
+    </select>
+  <select id="getAllEmpSal" resultMap="BaseResultMap">
+    select eid,sid from empSalary
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from salary_details
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.SalaryDetails" useGeneratedKeys="true">
+    insert into salary_details (eid, sid, basic_pay, 
+      leave_count, reward, punishes, 
+      paid_wages, dispense_date)
+    values (#{eid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, #{basicPay,jdbcType=INTEGER}, 
+      #{leaveCount,jdbcType=INTEGER}, #{reward,jdbcType=INTEGER}, #{punishes,jdbcType=INTEGER}, 
+      #{paidWages,jdbcType=DOUBLE}, #{dispenseDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.SalaryDetails" useGeneratedKeys="true">
+    insert into salary_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        eid,
+      </if>
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="basicPay != null">
+        basic_pay,
+      </if>
+      <if test="leaveCount != null">
+        leave_count,
+      </if>
+      <if test="reward != null">
+        reward,
+      </if>
+      <if test="punishes != null">
+        punishes,
+      </if>
+      <if test="paidWages != null">
+        paid_wages,
+      </if>
+      <if test="dispenseDate != null">
+        dispense_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="basicPay != null">
+        #{basicPay,jdbcType=INTEGER},
+      </if>
+      <if test="leaveCount != null">
+        #{leaveCount,jdbcType=INTEGER},
+      </if>
+      <if test="reward != null">
+        #{reward,jdbcType=INTEGER},
+      </if>
+      <if test="punishes != null">
+        #{punishes,jdbcType=INTEGER},
+      </if>
+      <if test="paidWages != null">
+        #{paidWages,jdbcType=DOUBLE},
+      </if>
+      <if test="dispenseDate != null">
+        #{dispenseDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+    <insert id="multiInsert">
+      insert into salary_details (eid, sid, basic_pay,
+                                  leave_count, reward, punishes,
+                                  paid_wages, dispense_date)
+                                  values
+      <foreach collection="salaryDetails" item="sd" separator=",">
+        (#{sd.employee.id},#{sd.salary.id},#{sd.basicPay},#{sd.leaveCount},#{sd.reward},#{sd.punishes},#{sd.paidWages},#{sd.dispenseDate})
+      </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.SalaryDetails">
+    update salary_details
+    <set>
+      <if test="eid != null">
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        sid = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="basicPay != null">
+        basic_pay = #{basicPay,jdbcType=INTEGER},
+      </if>
+      <if test="leaveCount != null">
+        leave_count = #{leaveCount,jdbcType=INTEGER},
+      </if>
+      <if test="reward != null">
+        reward = #{reward,jdbcType=INTEGER},
+      </if>
+      <if test="punishes != null">
+        punishes = #{punishes,jdbcType=INTEGER},
+      </if>
+      <if test="paidWages != null">
+        paid_wages = #{paidWages,jdbcType=DOUBLE},
+      </if>
+      <if test="dispenseDate != null">
+        dispense_date = #{dispenseDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.erp.entity.SalaryDetails">
+    update salary_details
+    set eid = #{eid,jdbcType=INTEGER},
+      sid = #{sid,jdbcType=INTEGER},
+      basic_pay = #{basicPay,jdbcType=INTEGER},
+      leave_count = #{leaveCount,jdbcType=INTEGER},
+      reward = #{reward,jdbcType=INTEGER},
+      punishes = #{punishes,jdbcType=INTEGER},
+      paid_wages = #{paidWages,jdbcType=DOUBLE},
+      dispense_date = #{dispenseDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,9 +1,13 @@
 package com.example.erp.service;
 
+import com.example.erp.entity.DTO.DepartmentCountDTO;
+import com.example.erp.entity.DTO.EmpAgeDTO;
+import com.example.erp.entity.DTO.EmpAgeTempDTO;
 import com.example.erp.entity.Employee;
 import com.example.erp.entity.RespMes;
 import com.example.erp.entity.RespPageBean;
 import com.example.erp.mapper.EmployeeMapper;
+import com.example.erp.util.DateUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +19,10 @@ import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author qzp
@@ -30,7 +36,6 @@ public class EmployeeService {
     SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
     SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
     DecimalFormat decimalFormat = new DecimalFormat("##.00");
-
 
     public RespPageBean getEmployees(Employee employee, Date[] beginDateScope,
                                      Integer page,Integer size){
@@ -126,5 +131,30 @@ public class EmployeeService {
 
     public Employee getEmployeeByWorkId(String workId) {
         return employeeMapper.getEmployeeByWorkId(workId);
+    }
+
+    public List<Employee> getEmpsByDid(Integer departmentId) {
+        return employeeMapper.selectByDepartmentId(departmentId);
+    }
+
+    public List<DepartmentCountDTO> getDepCount() {
+        return employeeMapper.getDepCount();
+    }
+
+    public List<EmpAgeDTO> getEmpAgeCount() {
+        List<EmpAgeDTO> empAges = new ArrayList<>(); 
+        List<EmpAgeTempDTO> unsolvedDates = employeeMapper.getEmpAgeCount();
+        try {
+            for (EmpAgeTempDTO unsolvedDate : unsolvedDates) {
+                EmpAgeDTO dto = new EmpAgeDTO();
+                Integer years = Integer.parseInt(unsolvedDate.getYears());
+                dto.setAge(DateUtils.getAge(years));
+                dto.setCount(unsolvedDate.getCount());
+                empAges.add(dto);
+            }
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
+        return empAges;
     }
 }

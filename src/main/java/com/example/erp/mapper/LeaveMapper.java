@@ -26,4 +26,10 @@ public interface LeaveMapper {
     int updateStatus(@Param("id") Integer id, @Param("status") Integer status,@Param("hrid")Integer hrid,@Param("handleDate")Date handleDate);
 
     List<Leave> getLeavesByDate(@Param("begin") Date begin, @Param("end") Date end);
+
+    List<Leave> getLeaveByDateScope(@Param("beginDate") Date beginDate,@Param("endDate") Date endDate);
+
+    int insertLeave(Leave leave);
+
+    List<Leave> findByEid(Integer eid);
 }

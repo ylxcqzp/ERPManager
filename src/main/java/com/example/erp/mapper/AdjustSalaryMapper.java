@@ -23,4 +23,6 @@ public interface AdjustSalaryMapper {
     List<AdjustSalary> getAdjustSalaryByCondition(@Param("keyword") String keyword,@Param("orderName") String orderName, @Param("orderBy") String orderBy);
 
     AdjustSalary getByEid(@Param("eid") Integer eid);
+
+    List<AdjustSalary> getEmpNewAdjustRecord();
 }

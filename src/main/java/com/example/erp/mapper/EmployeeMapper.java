@@ -1,10 +1,14 @@
 package com.example.erp.mapper;
 
+import com.example.erp.entity.DTO.DepartmentCountDTO;
+import com.example.erp.entity.DTO.EmpAgeTempDTO;
+import com.example.erp.entity.EmpRemove;
 import com.example.erp.entity.Employee;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface EmployeeMapper {
@@ -44,7 +48,13 @@ public interface EmployeeMapper {
 
     Employee getEmpByWorkId(@Param("workId") String workId);
 
-    int updateDepAndPos(Employee employee);
+    int updateDepAndPos(EmpRemove empRemove);
 
     Employee getEmployeeByWorkId(@Param("workId") String workId);
+
+    List<Employee> selectByDepartmentId(@Param("departmentId") Integer departmentId);
+
+    List<DepartmentCountDTO> getDepCount();
+
+    List<EmpAgeTempDTO> getEmpAgeCount();
 }

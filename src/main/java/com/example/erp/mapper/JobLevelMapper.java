@@ -1,6 +1,7 @@
 package com.example.erp.mapper;
 
 import com.example.erp.entity.JobLevel;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface JobLevelMapper {
     int updateByPrimaryKey(JobLevel record);
 
     List<JobLevel> getAll();
+
+    Integer deleteJobLevelsByIds(@Param("ids") Integer[] ids);
 }

@@ -86,6 +86,9 @@
     and m2.`enabled`=true
     order by m1.`id`,m2.`id`
   </select>
+  <select id="getMidsByRid" resultType="java.lang.Integer">
+    select mid from menu_role where rid=#{rid};
+  </select>
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

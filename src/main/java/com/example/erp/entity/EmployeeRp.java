@@ -14,6 +14,7 @@ import java.util.Date;
 public class EmployeeRp implements Serializable {
     private Integer id;
 
+    private Integer eid;
     /**
      * 员工编号
      */

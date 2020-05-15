@@ -22,7 +22,7 @@ public class EmpRemoveService {
     @Transactional(rollbackFor = RuntimeException.class)
     public RespMes addEmpRemove(EmpRemove empRemove) {
         try {
-            employeeMapper.updateDepAndPos(empRemove.getEmployee());
+            employeeMapper.updateDepAndPos(empRemove);
             empRemoveMapper.insertSelective(empRemove);
         }catch (Exception e){
             e.printStackTrace();

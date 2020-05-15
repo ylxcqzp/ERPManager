@@ -1,8 +1,10 @@
 package com.example.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Project 项目信息
@@ -27,6 +29,7 @@ public class Project implements Serializable {
      */
     private Byte status;
 
-    private static final long serialVersionUID = 1L;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private Date createDate;
 
 }

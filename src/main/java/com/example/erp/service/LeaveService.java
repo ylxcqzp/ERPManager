@@ -2,6 +2,7 @@ package com.example.erp.service;
 
 import com.example.erp.entity.Hr;
 import com.example.erp.entity.Leave;
+import com.example.erp.entity.RespMes;
 import com.example.erp.entity.RespPageBean;
 import com.example.erp.mapper.LeaveMapper;
 import com.github.pagehelper.Page;
@@ -46,5 +47,17 @@ public class LeaveService {
         respPageBean.setData(list);
         respPageBean.setTotal(pages.getTotal());
         return respPageBean;
+    }
+
+    public RespMes addLeave(Leave leave) {
+        leave.setStartDate(new Date());
+        if (leaveMapper.insertLeave(leave) == 1){
+            return RespMes.ok("提交成功，请等待人事处理");
+        }
+        return RespMes.error("提交失败");
+    }
+
+    public List<Leave> getLeavesByEid(Integer eid) {
+        return leaveMapper.findByEid(eid);
     }
 }

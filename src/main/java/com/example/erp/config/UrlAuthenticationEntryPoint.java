@@ -23,8 +23,13 @@ import java.io.PrintWriter;
 public class UrlAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest req, HttpServletResponse resp, AuthenticationException e) throws IOException, ServletException {
+        String token = req.getHeader("accessToken");
         resp.setContentType("application/json;charset=utf-8");
-        resp.setStatus(401);
+        if (token != null){
+            resp.setStatus(504);
+        }else {
+            resp.setStatus(401);
+        }
         PrintWriter out = resp.getWriter();
         RespMes mes = RespMes.error("请求失败");
         if (e instanceof InsufficientAuthenticationException) {

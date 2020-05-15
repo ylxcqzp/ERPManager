@@ -29,7 +29,13 @@
     delete from jobLevel
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.JobLevel" useGeneratedKeys="true">
+    <delete id="deleteJobLevelsByIds">
+      delete from jobLevel where id in
+      <foreach collection="ids" item="id" close=")" open="(" separator=",">
+        #{id}
+      </foreach>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.JobLevel" useGeneratedKeys="true">
     insert into jobLevel (`name`, title_level, create_date, 
       enabled)
     values (#{name,jdbcType=VARCHAR}, #{titleLevel,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 

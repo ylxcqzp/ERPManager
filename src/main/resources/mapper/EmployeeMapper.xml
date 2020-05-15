@@ -32,6 +32,11 @@
     select * from employee where employee.id = #{id}
   </select>
 
+  <select id="findNameById" parameterType="int" resultMap="BaseResultMap">
+    select id,name  from employee where employee.id = #{id}
+  </select>
+
+
   <resultMap id="EmployeeWithSalary" type="com.example.erp.entity.Employee" extends="BaseResultMap">
     <association property="salary" javaType="com.example.erp.entity.Salary">
       <id column="sid" property="id" jdbcType="INTEGER"/>
@@ -432,9 +437,9 @@
   </update>
   <update id="updateDepAndPos">
     update employee
-    set departmentId = #{department.id},
-        posId = #{position.id}
-    where id = #{id}
+    set departmentId = #{afterDepartment},
+        posId = #{afterPosition}
+    where id = #{employee.id}
   </update>
   <select id="selectAll" resultMap="BaseResultMap">
         select id, `name`, gender, birthday, id_card, `password`, wedlock, nationId, native_place,
@@ -533,5 +538,16 @@
     select <include refid="Base_Column_List"/>
     from employee
     where work_id = #{workId}
+  </select>
+    <select id="selectByDepartmentId" resultMap="findEmpById">
+      select employee.id,employee.name from employee
+      where departmentId = #{departmentId}
+    </select>
+    <select id="getDepCount" resultType="com.example.erp.entity.DTO.DepartmentCountDTO">
+      select d.name departmentName,count(departmentId) as count from employee join department d on employee.departmentId = d.id
+      group by departmentId
+    </select>
+  <select id="getEmpAgeCount" resultType="com.example.erp.entity.DTO.EmpAgeTempDTO">
+    select DATE_FORMAT(birthday,'%Y') as years,COUNT(id) as count from employee GROUP BY years ORDER BY years desc
   </select>
 </mapper>

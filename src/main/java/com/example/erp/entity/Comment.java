@@ -1,5 +1,6 @@
 package com.example.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.Date;
 public class Comment implements Serializable {
     private Integer id;
 
-    private Integer eid;
+    private Employee employee;
 
     private Integer mid;
 
@@ -25,6 +26,7 @@ public class Comment implements Serializable {
     /**
      * 评论时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Shanghai")
     private Date createDate;
 
 

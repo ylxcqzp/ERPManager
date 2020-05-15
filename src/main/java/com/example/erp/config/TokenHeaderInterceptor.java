@@ -27,6 +27,7 @@ public class TokenHeaderInterceptor implements HandlerInterceptor {
             }
         }
         response.setContentType("application/json;charset=utf-8");
+        response.setStatus(401);
         PrintWriter out = response.getWriter();
         RespMes message = RespMes.error("未登入，请先登入");
         String s = new ObjectMapper().writeValueAsString(message);
