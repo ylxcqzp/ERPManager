@@ -441,6 +441,9 @@
         posId = #{afterPosition}
     where id = #{employee.id}
   </update>
+  <update id="updatePassword">
+    update employee set password = #{newPass} where id = #{eid}
+  </update>
   <select id="selectAll" resultMap="BaseResultMap">
         select id, `name`, gender, birthday, id_card, `password`, wedlock, nationId, native_place,
                politicId, email, phone, address, departmentId, jobLevelId, posId, engage_form, tiptop_degree,
@@ -550,4 +553,11 @@
   <select id="getEmpAgeCount" resultType="com.example.erp.entity.DTO.EmpAgeTempDTO">
     select DATE_FORMAT(birthday,'%Y') as years,COUNT(id) as count from employee GROUP BY years ORDER BY years desc
   </select>
+  <select id="checkOldPass" resultType="java.lang.Integer">
+    select count(*) from employee where id = #{eid} and password = #{oldPass}
+  </select>
+    <select id="findByProjectId" resultMap="findEmpById">
+      select employee.id id,name from employee join emp_pro_rel epr on employee.id = epr.eid
+      where pid = #{pid}
+    </select>
 </mapper>

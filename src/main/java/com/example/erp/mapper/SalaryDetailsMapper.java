@@ -27,4 +27,6 @@ public interface SalaryDetailsMapper {
     List<SalaryDetails> getAllEmpSal();
 
     void multiInsert(@Param("salaryDetails") List<SalaryDetails> salaryDetails);
+
+    List<SalaryDetails> selectByIds(@Param("ids") Integer [] ids);
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -68,6 +69,18 @@ public class MissionController {
     @GetMapping("/develops/{departmentId}")
     public List<Employee> getEmployees(@PathVariable("departmentId") Integer departmentId){
         return employeeService.getEmpsByDid(departmentId);
+    }
+
+    @GetMapping("/project_group/{projectId}")
+    public List<Employee> getEmployee(@PathVariable("projectId")Integer pid){
+        return employeeService.getEmpByPid(pid);
+    }
+
+    @PostMapping("/add")
+    public RespMes addMission(@RequestBody Mission mission) {
+        mission.setCreateDate(new Date());
+        mission.setStatus(0L);
+        return missionService.addMission(mission);
     }
 
 }

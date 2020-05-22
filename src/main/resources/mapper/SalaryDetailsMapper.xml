@@ -51,7 +51,15 @@
   <select id="getAllEmpSal" resultMap="BaseResultMap">
     select eid,sid from empSalary
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByIds" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from salary_details
+      where id in
+      <foreach collection="ids"  item="id" open="(" separator="," close=")"  >
+        #{id}
+      </foreach>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from salary_details
     where id = #{id,jdbcType=INTEGER}
   </delete>

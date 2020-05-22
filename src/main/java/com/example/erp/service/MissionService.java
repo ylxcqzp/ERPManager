@@ -67,4 +67,11 @@ public class MissionService {
         return RespMes.ok("已清除负责人");
 
     }
+
+    public RespMes addMission(Mission mission) {
+        if (missionMapper.insertSelective(mission) == 1){
+            return RespMes.ok("添加成功");
+        }
+        return RespMes.error("添加失败");
+    }
 }

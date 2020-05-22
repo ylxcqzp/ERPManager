@@ -57,4 +57,10 @@ public interface EmployeeMapper {
     List<DepartmentCountDTO> getDepCount();
 
     List<EmpAgeTempDTO> getEmpAgeCount();
+
+    int checkOldPass(@Param("eid") Integer eid,@Param("oldPass") String oldPass);
+
+    int updatePassword(@Param("eid")Integer eid, @Param("newPass")String newPass);
+
+    List<Employee> findByProjectId(Integer pid);
 }

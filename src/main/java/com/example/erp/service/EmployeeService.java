@@ -157,4 +157,19 @@ public class EmployeeService {
         }
         return empAges;
     }
+
+    public RespMes updatePassword(Integer eid,String oldPass, String newPass) {
+        if (employeeMapper.checkOldPass(eid,oldPass) == 0){
+            return RespMes.error("原密码不匹配，请输入正确的原密码");
+        }
+        if (employeeMapper.updatePassword(eid,newPass) != 1) {
+            return RespMes.error("数据库操作失败");
+        }
+        return RespMes.ok("密码已更新");
+
+    }
+
+    public List<Employee> getEmpByPid(Integer pid) {
+        return employeeMapper.findByProjectId(pid);
+    }
 }

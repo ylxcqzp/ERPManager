@@ -60,7 +60,7 @@
       <if test="missionDetail != null">
         mission_detail,
       </if>
-      <if test="managerId != null">
+      <if test="employee != null">
         manager_id,
       </if>
       <if test="invoke != null">
@@ -92,8 +92,8 @@
       <if test="missionDetail != null">
         #{missionDetail,jdbcType=VARCHAR},
       </if>
-      <if test="managerId != null">
-        #{managerId,jdbcType=INTEGER},
+      <if test="employee != null">
+        #{employee.id,jdbcType=INTEGER},
       </if>
       <if test="invoke != null">
         #{invoke,jdbcType=VARCHAR},

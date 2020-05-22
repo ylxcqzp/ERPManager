@@ -10,11 +10,9 @@ import com.example.erp.service.ProjectService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +36,15 @@ public class ProjectController {
     public RespMes deleteEmpProRel(@NonNull Integer eid,@NonNull Integer pid){
         return projectService.deleteEmpProRel(eid,pid);
     }
+    @PostMapping("/{empId}")
+    public RespMes addProject(@RequestBody Project project,@PathVariable("empId") Integer eid) {
+        project.setStatus((byte)0);
+        project.setCreateDate(new Date());
+        return projectService.addProject(project,eid);
+    }
 
-
+    @GetMapping("/add_group")
+    public RespMes addGroups(Integer pid,Integer []eids){
+        return projectService.addEmpPro(pid,eids);
+    }
 }

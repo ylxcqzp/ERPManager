@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<p th:text="${empName}"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;你好</p>
+<pre>
+        以下是你本月的工资单，请查收！
+</pre>
+<table border="1" cellspacing="0">
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th style="width: 100px">部门</th>
+        <th style="width: 100px">职位</th>
+        <th>基本工资</th>
+        <th>奖金</th>
+        <th>午餐补助</th>
+        <th>交通补助</th>
+        <th style="width: 100px">应缴养老保险</th>
+        <th style="width: 100px">应缴医疗保险</th>
+        <th style="width: 100px">应缴公积金</th>
+        <th>请假扣除</th>
+        <th style="width: 100px">当月奖励金额</th>
+        <th style="width: 100px">当月处罚扣款</th>
+        <th>实发工资</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${name}"></td>
+        <td th:text="${depName}"></td>
+        <td th:text="${position}"></td>
+        <td th:text="${basicPay}"></td>
+        <td th:text="${bonus}"></td>
+        <td th:text="${lunchSalary}"></td>
+        <td th:text="${trafficSalary}"></td>
+        <td th:text="${pensionMoney}"></td>
+        <td th:text="${medicalMoney}"></td>
+        <td th:text="${accumulationFundMoney}"></td>
+        <td th:text="${leaveCount}"></td>
+        <td th:text="${reward}"></td>
+        <td th:text="${punishes}"></td>
+        <td th:text="${paidWages}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

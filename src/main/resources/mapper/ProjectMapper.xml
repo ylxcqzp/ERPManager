@@ -37,7 +37,7 @@
     values (#{projectName,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Project" useGeneratedKeys="true">
+  <insert id="insertSelective" useGeneratedKeys = "true"  keyColumn="id" keyProperty="id" parameterType="com.example.erp.entity.Project" >
     insert into Project
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="projectName != null">
@@ -48,6 +48,9 @@
       </if>
       <if test="status != null">
         `status`,
+      </if>
+      <if test="createDate != null">
+        create_date
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -60,7 +63,22 @@
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
+      <if test="createDate != null">
+        #{createDate}
+      </if>
     </trim>
+  </insert>
+  <insert id="insertEmpPro">
+    insert into emp_pro_rel(eid,pid)
+    values (#{eid},#{pid})
+  </insert>
+  <insert id="addEmpPro">
+    insert into emp_pro_rel (eid, pid)
+    values
+    <foreach collection="eids" item="eid" separator=",">
+      (#{eid},#{pid})
+    </foreach>
+
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.erp.entity.Project">
     update Project

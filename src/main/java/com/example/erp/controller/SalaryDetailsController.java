@@ -1,16 +1,12 @@
 package com.example.erp.controller;
 
-import com.example.erp.entity.Department;
-import com.example.erp.entity.Employee;
-import com.example.erp.entity.Position;
-import com.example.erp.entity.RespPageBean;
+import com.example.erp.entity.*;
 import com.example.erp.service.DepartmentService;
+import com.example.erp.service.EmailService;
 import com.example.erp.service.PositionService;
 import com.example.erp.service.SalaryDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +24,8 @@ public class SalaryDetailsController {
     private DepartmentService departmentService;
     @Autowired
     private SalaryDetailsService salaryDetailsService;
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping("/positions")
     public List<Position> getPositions() {
@@ -46,5 +44,12 @@ public class SalaryDetailsController {
                                          @RequestParam(defaultValue = "1") Integer page,
                                          @RequestParam(defaultValue = "10") Integer size){
         return salaryDetailsService.getSalaryDetails(employee,begin,end,page,size);
+    }
+
+    @GetMapping("/send")
+    public RespMes sendEmail(Integer []ids) {
+        List<SalaryDetails> salaryDetails = salaryDetailsService.getSalaryDetailsByIds(ids);
+        emailService.sendEmpSalaryEmail(salaryDetails);
+        return RespMes.ok("邮件已发送");
     }
 }

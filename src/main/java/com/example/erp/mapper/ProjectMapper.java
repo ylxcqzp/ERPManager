@@ -23,4 +23,8 @@ public interface ProjectMapper {
     List<Project> getProjectsByEid(@Param("eid") Integer eid);
 
     int deleteFromEmpPro(@Param("eid") Integer eid,@Param("pid") Integer pid);
+
+    int insertEmpPro(@Param("eid") Integer eid, @Param("pid") Integer pid);
+
+    int addEmpPro(@Param("pid") Integer pid, @Param("eids") Integer[] eids);
 }

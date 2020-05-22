@@ -31,4 +31,11 @@ public class SalaryDetailsService {
         pageBean.setData(salaryDetails);
         return pageBean;
     }
+
+    public List<SalaryDetails> getSalaryDetailsByIds(Integer [] ids) {
+        if (ids.length == 0){
+            return null;
+        }
+        return salaryDetailsMapper.selectByIds(ids);
+    }
 }
